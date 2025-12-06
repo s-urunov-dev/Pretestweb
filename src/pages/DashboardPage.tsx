@@ -325,6 +325,10 @@ export function DashboardPage() {
       location: b.session.location || 'Test Center',
       locationUrl: b.session.location_url || 'https://maps.google.com',
       status: b.payment_status,
+      originalPrice: b.original_price,
+      discountAmount: b.discount_amount,
+      finalPrice: b.final_price,
+      promoCodeApplied: b.promo_code_applied,
     }));
 
   // Compute pending bookings (not paid yet) - Backend now handles expiration logic
@@ -340,6 +344,10 @@ export function DashboardPage() {
       status: b.payment_status,
       paymentMethod: b.payment_method,
       expiresAt: new Date(b.expires_at), // ✅ Calculate countdown from this timestamp
+      originalPrice: b.original_price,
+      discountAmount: b.discount_amount,
+      finalPrice: b.final_price,
+      promoCodeApplied: b.promo_code_applied,
     }));
 
   // Calculate countdown from expires_at timestamp
@@ -493,20 +501,42 @@ export function DashboardPage() {
                             {t.dashboard.paymentPending}
                           </span>
                         </div>
-                        <div className="flex flex-col sm:flex-row sm:flex-wrap gap-2 sm:gap-4 text-sm text-gray-600 mb-3">
-                          <div className="flex items-center gap-1">
-                            <Calendar className="h-4 w-4" />
-                            <span>{booking.date}</span>
+                        <div className="flex flex-col sm:flex-row sm:flex-wrap gap-2 sm:gap-3 text-gray-600 mb-3">
+                          <div className="flex items-center gap-1.5">
+                            <Calendar className="h-5 w-5 text-[#182966]" />
+                            <span className="font-medium text-[#182966]">{booking.date}</span>
                           </div>
-                          <div className="flex items-center gap-1">
-                            <Clock className="h-4 w-4" />
-                            <span>{booking.time}</span>
+                          <div className="flex items-center gap-1.5">
+                            <Clock className="h-5 w-5 text-[#182966]" />
+                            <span className="font-medium text-[#182966]">{booking.time}</span>
                           </div>
-                          <div className="flex items-center gap-1">
-                            <MapPin className="h-4 w-4" />
-                            <span>{booking.location}</span>
+                          <div className="flex items-center gap-1.5">
+                            <MapPin className="h-5 w-5 text-[#182966]" />
+                            <span className="font-medium text-[#182966]">{booking.location}</span>
                           </div>
                         </div>
+                        
+                        {/* Price - Compact inline format */}
+                        {booking.finalPrice && (
+                          <div className="flex items-center gap-2 flex-wrap text-sm mb-3">
+                            <span className="text-gray-600">{t.dashboard.total}:</span>
+                            <span className="font-bold text-[#182966]">
+                              {parseFloat(booking.finalPrice).toLocaleString()} so'm
+                            </span>
+                            {booking.discountAmount && parseFloat(booking.discountAmount) > 0 && (
+                              <>
+                                <span className="text-gray-400 line-through text-xs">
+                                  {parseFloat(booking.originalPrice).toLocaleString()} so'm
+                                </span>
+                                {booking.promoCodeApplied && (
+                                  <span className="px-1.5 py-0.5 text-xs rounded bg-green-100 text-green-700 uppercase font-medium">
+                                    {booking.promoCodeApplied}
+                                  </span>
+                                )}
+                              </>
+                            )}
+                          </div>
+                        )}
                         <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
                           <p className="text-sm text-yellow-800 mb-1">
                             {booking.paymentMethod === 'cash' ? (
@@ -648,20 +678,42 @@ export function DashboardPage() {
                           <CheckCircle2 className="h-5 w-5 text-green-500" />
                           <h3 className="text-base sm:text-lg text-[#182966]">{test.type}</h3>
                         </div>
-                        <div className="flex flex-col sm:flex-row sm:flex-wrap gap-2 sm:gap-4 text-sm text-gray-600">
-                          <div className="flex items-center gap-1">
-                            <Calendar className="h-4 w-4" />
-                            <span>{test.date}</span>
+                        <div className="flex flex-col sm:flex-row sm:flex-wrap gap-2 sm:gap-3 text-gray-600 mb-2">
+                          <div className="flex items-center gap-1.5">
+                            <Calendar className="h-5 w-5 text-[#182966]" />
+                            <span className="font-medium text-[#182966]">{test.date}</span>
                           </div>
-                          <div className="flex items-center gap-1">
-                            <Clock className="h-4 w-4" />
-                            <span>{test.time}</span>
+                          <div className="flex items-center gap-1.5">
+                            <Clock className="h-5 w-5 text-[#182966]" />
+                            <span className="font-medium text-[#182966]">{test.time}</span>
                           </div>
-                          <div className="flex items-center gap-1">
-                            <MapPin className="h-4 w-4" />
-                            <span>{test.location}</span>
+                          <div className="flex items-center gap-1.5">
+                            <MapPin className="h-5 w-5 text-[#182966]" />
+                            <span className="font-medium text-[#182966]">{test.location}</span>
                           </div>
                         </div>
+                        
+                        {/* Price - Compact inline format */}
+                        {test.finalPrice && (
+                          <div className="flex items-center gap-2 flex-wrap text-sm">
+                            <span className="text-gray-500 text-xs">{t.dashboard.totalPaid}:</span>
+                            <span className="font-bold text-green-600">
+                              {parseFloat(test.finalPrice).toLocaleString()} so'm
+                            </span>
+                            {test.discountAmount && parseFloat(test.discountAmount) > 0 && (
+                              <>
+                                <span className="text-gray-400 line-through text-xs">
+                                  {parseFloat(test.originalPrice).toLocaleString()} so'm
+                                </span>
+                                {test.promoCodeApplied && (
+                                  <span className="px-1.5 py-0.5 text-xs rounded bg-green-100 text-green-700 uppercase font-medium">
+                                    {test.promoCodeApplied}
+                                  </span>
+                                )}
+                              </>
+                            )}
+                          </div>
+                        )}
                       </div>
                     </div>
                     <div className="flex flex-col sm:flex-row sm:flex-wrap gap-2">
