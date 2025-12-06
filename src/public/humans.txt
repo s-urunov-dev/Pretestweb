@@ -1,0 +1,14 @@
+/* TEAM */
+Developer: Pretest Development Team
+Site: https://pre-test.uz
+Location: Tashkent, Uzbekistan
+
+/* THANKS */
+IELTS Examiners and Test Takers who helped us build this platform
+
+/* SITE */
+Last update: 2025/12/02
+Standards: HTML5, CSS3, JavaScript ES6+
+Components: React, TypeScript, Tailwind CSS
+Backend: Django REST Framework
+Software: Visual Studio Code, Figma

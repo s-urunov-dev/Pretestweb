@@ -1,0 +1,1570 @@
+openapi: 3.0.3
+info:
+  title: Pretest IELTS Platform API
+  description: Complete API specification for Pretest IELTS mock test platform
+  version: 1.0.0
+  contact:
+    email: info@pretest.com
+
+servers:
+  - url: https://api.pretest.com/v1
+    description: Production server
+  - url: https://staging-api.pretest.com/v1
+    description: Staging server
+
+tags:
+  - name: Auth
+    description: Authentication and authorization endpoints
+  - name: Public
+    description: Public endpoints for main landing page
+  - name: Tests
+    description: Test management endpoints
+  - name: Dashboard
+    description: User dashboard endpoints
+  - name: Feedback
+    description: Video feedback endpoints
+  - name: Profile
+    description: User profile management
+
+paths:
+  # ==================== AUTH ENDPOINTS ====================
+  /auth/register:
+    post:
+      tags:
+        - Auth
+      summary: Register new user
+      description: Register a new user with passport details and send OTP to phone
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - fullName
+                - phoneNumber
+                - passportSerial
+                - passportNumber
+                - password
+              properties:
+                fullName:
+                  type: string
+                  example: "John Doe"
+                  description: "User's full name (letters only)"
+                phoneNumber:
+                  type: string
+                  example: "+998901234567"
+                  description: "Phone number in +998 format"
+                passportSerial:
+                  type: string
+                  example: "AB"
+                  description: "2 uppercase letters"
+                passportNumber:
+                  type: string
+                  example: "1234567"
+                  description: "7 digits"
+                password:
+                  type: string
+                  format: password
+                  example: "SecurePass123!"
+                  description: "User password"
+      responses:
+        '201':
+          description: User registered successfully, OTP sent
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Registration successful. OTP sent to your phone."
+                  data:
+                    type: object
+                    properties:
+                      userId:
+                        type: string
+                        example: "user_123456"
+                      phoneNumber:
+                        type: string
+                        example: "+998901234567"
+                      otpExpiresIn:
+                        type: integer
+                        example: 300
+                        description: "OTP expiration time in seconds"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          description: User already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/verify:
+    post:
+      tags:
+        - Auth
+      summary: Verify OTP code
+      description: Verify the OTP code sent to user's phone
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - phoneNumber
+                - otpCode
+              properties:
+                phoneNumber:
+                  type: string
+                  example: "+998901234567"
+                otpCode:
+                  type: string
+                  example: "123456"
+                  description: "6-digit OTP code"
+      responses:
+        '200':
+          description: OTP verified successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Phone number verified successfully"
+                  data:
+                    type: object
+                    properties:
+                      verified:
+                        type: boolean
+                        example: true
+                      userId:
+                        type: string
+                        example: "user_123456"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          description: Invalid OTP code
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/resend-otp:
+    post:
+      tags:
+        - Auth
+      summary: Resend OTP code
+      description: Resend OTP code to user's phone
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - phoneNumber
+              properties:
+                phoneNumber:
+                  type: string
+                  example: "+998901234567"
+      responses:
+        '200':
+          description: OTP resent successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "OTP resent successfully"
+                  data:
+                    type: object
+                    properties:
+                      otpExpiresIn:
+                        type: integer
+                        example: 300
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: User login
+      description: Authenticate user with phone number and password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - phoneNumber
+                - password
+              properties:
+                phoneNumber:
+                  type: string
+                  example: "+998901234567"
+                password:
+                  type: string
+                  format: password
+                  example: "SecurePass123!"
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Login successful"
+                  data:
+                    type: object
+                    properties:
+                      accessToken:
+                        type: string
+                        example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                      refreshToken:
+                        type: string
+                        example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                      user:
+                        $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/logout:
+    post:
+      tags:
+        - Auth
+      summary: User logout
+      description: Logout user and invalidate tokens
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Logout successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Logout successful"
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /auth/refresh:
+    post:
+      tags:
+        - Auth
+      summary: Refresh access token
+      description: Get new access token using refresh token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - refreshToken
+              properties:
+                refreshToken:
+                  type: string
+                  example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+      responses:
+        '200':
+          description: Token refreshed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      accessToken:
+                        type: string
+                        example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # ==================== PUBLIC ENDPOINTS ====================
+  /public/test-packages:
+    get:
+      tags:
+        - Public
+      summary: Get all test packages
+      description: Get list of available test packages with icons for main page
+      responses:
+        '200':
+          description: Test packages retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: "pkg_001"
+                        name:
+                          type: string
+                          example: "Daily Practice Test"
+                        description:
+                          type: string
+                          example: "Perfect for regular practice"
+                        price:
+                          type: number
+                          example: 29
+                        currency:
+                          type: string
+                          example: "USD"
+                        features:
+                          type: array
+                          items:
+                            type: string
+                          example: ["Reading", "Listening", "Writing"]
+                        icon:
+                          type: string
+                          example: "book-open"
+                          description: "Lucide icon name"
+                        color:
+                          type: string
+                          example: "#182966"
+                        duration:
+                          type: string
+                          example: "2 hours"
+                        isPopular:
+                          type: boolean
+                          example: false
+                        order:
+                          type: integer
+                          example: 1
+
+  /public/test-sessions:
+    get:
+      tags:
+        - Public
+      summary: Get available test sessions
+      description: Get list of available test sessions with filtering options
+      parameters:
+        - name: testType
+          in: query
+          description: Filter by test type
+          schema:
+            type: string
+            enum: [all, daily-practice, full-simulation]
+            default: all
+        - name: date
+          in: query
+          description: Filter by date (YYYY-MM-DD)
+          schema:
+            type: string
+            format: date
+        - name: location
+          in: query
+          description: Filter by location
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Test sessions retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: "session_001"
+                        testType:
+                          type: string
+                          example: "Full Simulation Test"
+                        testTypeSlug:
+                          type: string
+                          example: "full-simulation"
+                        date:
+                          type: string
+                          format: date
+                          example: "2025-11-25"
+                        day:
+                          type: string
+                          example: "Tuesday"
+                        times:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              time:
+                                type: string
+                                example: "09:00 AM"
+                              available:
+                                type: boolean
+                                example: true
+                              spotsLeft:
+                                type: integer
+                                example: 12
+                        location:
+                          type: string
+                          example: "Downtown Test Center"
+                        locationUrl:
+                          type: string
+                          example: "https://maps.google.com/?q=Downtown+Test+Center"
+                        address:
+                          type: string
+                          example: "123 Main Street, Tashkent"
+                        price:
+                          type: number
+                          example: 89
+
+  /public/about-cards:
+    get:
+      tags:
+        - Public
+      summary: Get About Pretest cards
+      description: Get 4 info cards for About Pretest section with icons
+      responses:
+        '200':
+          description: About cards retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: "card_001"
+                        title:
+                          type: string
+                          example: "Real Exam Conditions"
+                        description:
+                          type: string
+                          example: "Experience authentic IELTS test environment"
+                        icon:
+                          type: string
+                          example: "check-circle"
+                          description: "Lucide icon name"
+                        color:
+                          type: string
+                          example: "#182966"
+                        order:
+                          type: integer
+                          example: 1
+
+  /public/team-members:
+    get:
+      tags:
+        - Public
+      summary: Get expert team members
+      description: Get list of expert team members with photos and info
+      responses:
+        '200':
+          description: Team members retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: "member_001"
+                        name:
+                          type: string
+                          example: "Dr. Sarah Mitchell"
+                        role:
+                          type: string
+                          example: "Senior IELTS Examiner"
+                        bio:
+                          type: string
+                          example: "Former IELTS examiner with 15 years of experience"
+                        imageUrl:
+                          type: string
+                          example: "https://cdn.pretest.com/team/sarah-mitchell.jpg"
+                        experience:
+                          type: string
+                          example: "15+ years"
+                        specialization:
+                          type: array
+                          items:
+                            type: string
+                          example: ["Writing", "Speaking"]
+                        order:
+                          type: integer
+                          example: 1
+
+  /public/institutions:
+    get:
+      tags:
+        - Public
+      summary: Get trusted institutions
+      description: Get list of trusted institutions with logos and URLs
+      responses:
+        '200':
+          description: Institutions retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: "inst_001"
+                        name:
+                          type: string
+                          example: "British Council"
+                        logoUrl:
+                          type: string
+                          example: "https://cdn.pretest.com/logos/british-council.png"
+                        websiteUrl:
+                          type: string
+                          example: "https://www.britishcouncil.org"
+                        order:
+                          type: integer
+                          example: 1
+
+  /public/testimonials:
+    get:
+      tags:
+        - Public
+      summary: Get student testimonials
+      description: Get student success stories and testimonials
+      responses:
+        '200':
+          description: Testimonials retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: "test_001"
+                        studentName:
+                          type: string
+                          example: "Ahmad Karimov"
+                        studentPhoto:
+                          type: string
+                          example: "https://cdn.pretest.com/testimonials/ahmad.jpg"
+                        score:
+                          type: number
+                          example: 8.0
+                        testimonial:
+                          type: string
+                          example: "The mock tests helped me understand the real exam format perfectly!"
+                        testDate:
+                          type: string
+                          format: date
+                          example: "2025-10-15"
+                        country:
+                          type: string
+                          example: "Uzbekistan"
+                        order:
+                          type: integer
+                          example: 1
+
+  /public/footer-info:
+    get:
+      tags:
+        - Public
+      summary: Get footer information
+      description: Get footer contact info and social media links
+      responses:
+        '200':
+          description: Footer info retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      contact:
+                        type: object
+                        properties:
+                          email:
+                            type: string
+                            example: "info@pretest.com"
+                          phone:
+                            type: string
+                            example: "+1 (234) 567-890"
+                          address:
+                            type: string
+                            example: "London, United Kingdom"
+                      socialMedia:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              example: "social_001"
+                            platform:
+                              type: string
+                              example: "facebook"
+                            icon:
+                              type: string
+                              example: "facebook"
+                              description: "Lucide icon name"
+                            url:
+                              type: string
+                              example: "https://facebook.com/pretest"
+                            order:
+                              type: integer
+                              example: 1
+
+  # ==================== DASHBOARD ENDPOINTS ====================
+  /dashboard/stats:
+    get:
+      tags:
+        - Dashboard
+      summary: Get user dashboard statistics
+      description: Get user's test statistics for dashboard
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Statistics retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      totalTests:
+                        type: integer
+                        example: 5
+                      averageScore:
+                        type: number
+                        example: 7.2
+                      upcomingTests:
+                        type: integer
+                        example: 2
+                      bestScore:
+                        type: number
+                        example: 8.0
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /dashboard/upcoming-tests:
+    get:
+      tags:
+        - Dashboard
+      summary: Get user's upcoming tests
+      description: Get list of user's scheduled upcoming tests
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Upcoming tests retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: "booking_001"
+                        testType:
+                          type: string
+                          example: "Full Simulation Test"
+                        date:
+                          type: string
+                          example: "November 25, 2025"
+                        time:
+                          type: string
+                          example: "09:00 AM"
+                        location:
+                          type: string
+                          example: "Downtown Test Center"
+                        locationUrl:
+                          type: string
+                          example: "https://maps.google.com/?q=Downtown+Test+Center"
+                        address:
+                          type: string
+                          example: "123 Main Street, Tashkent"
+                        status:
+                          type: string
+                          enum: [confirmed, pending, cancelled]
+                          example: "confirmed"
+                        price:
+                          type: number
+                          example: 89
+                        bookingDate:
+                          type: string
+                          format: date-time
+                          example: "2025-11-15T10:30:00Z"
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /dashboard/completed-tests:
+    get:
+      tags:
+        - Dashboard
+      summary: Get user's completed tests
+      description: Get list of user's completed tests with scores
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Completed tests retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: "test_001"
+                        testType:
+                          type: string
+                          example: "Full Simulation Test"
+                        date:
+                          type: string
+                          example: "November 10, 2025"
+                        scores:
+                          type: object
+                          properties:
+                            reading:
+                              type: number
+                              example: 7.5
+                            listening:
+                              type: number
+                              example: 8.0
+                            writing:
+                              type: number
+                              example: 7.0
+                            speaking:
+                              type: number
+                              example: 7.5
+                            overall:
+                              type: number
+                              example: 7.5
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /dashboard/payment-history:
+    get:
+      tags:
+        - Dashboard
+      summary: Get user's payment history
+      description: Get list of user's payment transactions
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: Payment history retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      payments:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              example: "pay_001"
+                            description:
+                              type: string
+                              example: "Full Simulation Test"
+                            date:
+                              type: string
+                              example: "November 15, 2025"
+                            amount:
+                              type: number
+                              example: 89.00
+                            currency:
+                              type: string
+                              example: "USD"
+                            status:
+                              type: string
+                              enum: [completed, pending, failed, refunded]
+                              example: "completed"
+                            paymentMethod:
+                              type: string
+                              enum: [click, cash, card]
+                              example: "click"
+                            transactionId:
+                              type: string
+                              example: "txn_123456789"
+                      pagination:
+                        $ref: '#/components/schemas/Pagination'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # ==================== TEST BOOKING ENDPOINTS ====================
+  /tests/book:
+    post:
+      tags:
+        - Tests
+      summary: Book a new test
+      description: Book a new test session
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - testPackageId
+                - sessionId
+                - time
+                - paymentMethod
+              properties:
+                testPackageId:
+                  type: string
+                  example: "pkg_001"
+                sessionId:
+                  type: string
+                  example: "session_001"
+                time:
+                  type: string
+                  example: "09:00 AM"
+                paymentMethod:
+                  type: string
+                  enum: [click, cash]
+                  example: "click"
+      responses:
+        '201':
+          description: Test booked successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Test booked successfully"
+                  data:
+                    type: object
+                    properties:
+                      bookingId:
+                        type: string
+                        example: "booking_001"
+                      paymentUrl:
+                        type: string
+                        example: "https://my.click.uz/services/pay?ref=booking_001"
+                        description: "Payment URL for Click (if paymentMethod is 'click')"
+                      expiresAt:
+                        type: string
+                        format: date-time
+                        example: "2025-11-16T10:30:00Z"
+                        description: "Booking expiration (for cash payment)"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /tests/reschedule/{bookingId}:
+    put:
+      tags:
+        - Tests
+      summary: Reschedule a test
+      description: Reschedule an existing test booking
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: bookingId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - sessionId
+                - time
+              properties:
+                sessionId:
+                  type: string
+                  example: "session_002"
+                time:
+                  type: string
+                  example: "02:00 PM"
+      responses:
+        '200':
+          description: Test rescheduled successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Test rescheduled successfully"
+                  data:
+                    type: object
+                    properties:
+                      bookingId:
+                        type: string
+                        example: "booking_001"
+                      newDate:
+                        type: string
+                        example: "November 27, 2025"
+                      newTime:
+                        type: string
+                        example: "02:00 PM"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /tests/cancel/{bookingId}:
+    delete:
+      tags:
+        - Tests
+      summary: Cancel a test booking
+      description: Cancel an existing test booking
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: bookingId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Test cancelled successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Test cancelled successfully"
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ==================== FEEDBACK ENDPOINTS ====================
+  /feedback/submissions:
+    get:
+      tags:
+        - Feedback
+      summary: Get user's feedback submissions
+      description: Get list of user's writing submissions and feedback
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Feedback submissions retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: "feedback_001"
+                        title:
+                          type: string
+                          example: "Writing Task 2 - Technology Essay"
+                        submittedDate:
+                          type: string
+                          example: "November 15, 2025"
+                        status:
+                          type: string
+                          enum: [processing, completed]
+                          example: "completed"
+                        taskType:
+                          type: string
+                          enum: ["Writing Task 1", "Writing Task 2"]
+                          example: "Writing Task 2"
+                        videoUrl:
+                          type: string
+                          example: "https://cdn.pretest.com/feedback/video_001.mp4"
+                          nullable: true
+                        videoDownloadUrl:
+                          type: string
+                          example: "https://cdn.pretest.com/feedback/video_001.mp4?download=true"
+                          nullable: true
+                        examiner:
+                          type: string
+                          example: "Dr. Sarah Mitchell"
+                          nullable: true
+                        examinerPhoto:
+                          type: string
+                          example: "https://cdn.pretest.com/team/sarah-mitchell.jpg"
+                          nullable: true
+                        score:
+                          type: number
+                          example: 7.5
+                          nullable: true
+                        feedback:
+                          type: string
+                          example: "Excellent coherence and cohesion. Grammar is strong with minor errors."
+                          nullable: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    post:
+      tags:
+        - Feedback
+      summary: Submit writing for feedback
+      description: Submit writing task for video feedback
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - taskType
+                - submissionMethod
+              properties:
+                taskType:
+                  type: string
+                  enum: ["Writing Task 1", "Writing Task 2"]
+                  example: "Writing Task 2"
+                submissionMethod:
+                  type: string
+                  enum: [test, text, file]
+                  example: "text"
+                testId:
+                  type: string
+                  example: "test_001"
+                  description: "Required if submissionMethod is 'test'"
+                writingText:
+                  type: string
+                  example: "In today's digital age, technology has become..."
+                  description: "Required if submissionMethod is 'text'"
+                file:
+                  type: string
+                  format: binary
+                  description: "Required if submissionMethod is 'file'"
+      responses:
+        '201':
+          description: Writing submitted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Writing submitted successfully"
+                  data:
+                    type: object
+                    properties:
+                      submissionId:
+                        type: string
+                        example: "feedback_001"
+                      paymentUrl:
+                        type: string
+                        example: "https://my.click.uz/services/pay?ref=feedback_001"
+                      amount:
+                        type: number
+                        example: 25
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /feedback/{submissionId}:
+    get:
+      tags:
+        - Feedback
+      summary: Get feedback details
+      description: Get detailed feedback for a specific submission
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: submissionId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Feedback details retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: "feedback_001"
+                      title:
+                        type: string
+                        example: "Writing Task 2 - Technology Essay"
+                      taskType:
+                        type: string
+                        example: "Writing Task 2"
+                      submittedDate:
+                        type: string
+                        format: date-time
+                        example: "2025-11-15T10:30:00Z"
+                      status:
+                        type: string
+                        example: "completed"
+                      writingText:
+                        type: string
+                        example: "In today's digital age..."
+                      videoUrl:
+                        type: string
+                        example: "https://cdn.pretest.com/feedback/video_001.mp4"
+                      videoDownloadUrl:
+                        type: string
+                        example: "https://cdn.pretest.com/feedback/video_001.mp4?download=true"
+                      examiner:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            example: "Dr. Sarah Mitchell"
+                          photo:
+                            type: string
+                            example: "https://cdn.pretest.com/team/sarah-mitchell.jpg"
+                          role:
+                            type: string
+                            example: "Senior IELTS Examiner"
+                      scores:
+                        type: object
+                        properties:
+                          taskAchievement:
+                            type: number
+                            example: 7.5
+                          coherenceCohesion:
+                            type: number
+                            example: 8.0
+                          lexicalResource:
+                            type: number
+                            example: 7.0
+                          grammaticalRange:
+                            type: number
+                            example: 7.5
+                          overall:
+                            type: number
+                            example: 7.5
+                      feedback:
+                        type: string
+                        example: "Excellent coherence and cohesion. Grammar is strong with minor errors."
+                      detailedFeedback:
+                        type: object
+                        properties:
+                          strengths:
+                            type: array
+                            items:
+                              type: string
+                            example: ["Clear thesis statement", "Good paragraph structure"]
+                          improvements:
+                            type: array
+                            items:
+                              type: string
+                            example: ["Expand vocabulary range", "Add more specific examples"]
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ==================== PROFILE ENDPOINTS ====================
+  /profile:
+    get:
+      tags:
+        - Profile
+      summary: Get user profile
+      description: Get current user's profile information
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Profile retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    put:
+      tags:
+        - Profile
+      summary: Update user profile
+      description: Update current user's profile information
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fullName:
+                  type: string
+                  example: "John Doe"
+                email:
+                  type: string
+                  format: email
+                  example: "john.doe@example.com"
+                dateOfBirth:
+                  type: string
+                  format: date
+                  example: "1995-05-15"
+                targetScore:
+                  type: number
+                  example: 7.5
+      responses:
+        '200':
+          description: Profile updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Profile updated successfully"
+                  data:
+                    $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /profile/change-password:
+    put:
+      tags:
+        - Profile
+      summary: Change user password
+      description: Change current user's password
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - currentPassword
+                - newPassword
+              properties:
+                currentPassword:
+                  type: string
+                  format: password
+                  example: "OldPass123!"
+                newPassword:
+                  type: string
+                  format: password
+                  example: "NewPass123!"
+      responses:
+        '200':
+          description: Password changed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Password changed successfully"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+# ==================== COMPONENTS ====================
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "user_123456"
+        fullName:
+          type: string
+          example: "John Doe"
+        phoneNumber:
+          type: string
+          example: "+998901234567"
+        email:
+          type: string
+          format: email
+          example: "john.doe@example.com"
+          nullable: true
+        passportSerial:
+          type: string
+          example: "AB"
+        passportNumber:
+          type: string
+          example: "1234567"
+        dateOfBirth:
+          type: string
+          format: date
+          example: "1995-05-15"
+          nullable: true
+        targetScore:
+          type: number
+          example: 7.5
+          nullable: true
+        isVerified:
+          type: boolean
+          example: true
+        createdAt:
+          type: string
+          format: date-time
+          example: "2025-11-01T10:30:00Z"
+
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: "VALIDATION_ERROR"
+            message:
+              type: string
+              example: "Invalid input data"
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                    example: "phoneNumber"
+                  message:
+                    type: string
+                    example: "Phone number must be in +998 format"
+
+    Pagination:
+      type: object
+      properties:
+        currentPage:
+          type: integer
+          example: 1
+        totalPages:
+          type: integer
+          example: 5
+        totalItems:
+          type: integer
+          example: 50
+        itemsPerPage:
+          type: integer
+          example: 10
+
+  responses:
+    BadRequest:
+      description: Bad request - validation error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    
+    Unauthorized:
+      description: Unauthorized - invalid or missing token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            success: false
+            error:
+              code: "UNAUTHORIZED"
+              message: "Invalid or expired token"
+    
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            success: false
+            error:
+              code: "NOT_FOUND"
+              message: "Resource not found"
