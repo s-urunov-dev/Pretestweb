@@ -11,7 +11,7 @@ import { paymentService } from '../services/payment.service';
 import { promocodeService, PromocodeValidationResponse } from '../services/promocode.service';
 import { useAuth } from '../contexts/AuthContext';
 import { toast } from 'sonner';
-import clickLogo from 'figma:asset/2a03e1d9f42a8a77d98665ab2740b6507b408cd2.png';
+import clickLogo from '../assets/click-logo.svg';
 import { useLanguage } from '../contexts/LanguageContext';
 import { Input } from '../components/ui/input';
 
@@ -212,12 +212,25 @@ export function DashboardPage() {
       });
 
       setPromoValidation(validation);
-      toast.success(`Promo code applied! ${validation.discount_type === 'percentage' ? validation.discount_value + '%' : validation.discount_value + ' UZS'} discount`);
+      toast.success(t.dashboard.promoApplied);
     } catch (error: any) {
-      const errorMessage = error?.response?.data?.code?.[0] || 'Invalid promo code';
-      setPromoError(errorMessage);
+      const errorMessage = error?.response?.data?.code?.[0];
+      
+      // Map backend errors to translation keys
+      let translatedError = t.dashboard.promoInvalid;
+      if (errorMessage) {
+        if (errorMessage.includes('expired') || errorMessage.includes('Expired')) {
+          translatedError = t.dashboard.promoExpired;
+        } else if (errorMessage.includes('already used') || errorMessage.includes('Already used')) {
+          translatedError = t.dashboard.promoAlreadyUsed;
+        } else if (errorMessage.includes('maximum') || errorMessage.includes('limit')) {
+          translatedError = t.dashboard.promoMaxUsed;
+        }
+      }
+      
+      setPromoError(translatedError);
       setPromoValidation(null);
-      toast.error(errorMessage);
+      toast.error(translatedError);
     } finally {
       setIsValidatingPromo(false);
     }
@@ -242,7 +255,7 @@ export function DashboardPage() {
         promo_code_str: promoValidation?.code, // Add promo code
       });
 
-      toast.success('Booking created successfully!');
+      toast.success(t.dashboard.bookingCreated);
       
       // Step 2: Create payment record
       try {
@@ -256,29 +269,58 @@ export function DashboardPage() {
 
         // Step 3: Handle payment method
         if (method === 'click' && paymentResponse.redirect_url) {
-          toast.info('Redirecting to Click payment...');
+          toast.info(t.dashboard.redirectingToClick);
           // Redirect to Click payment page
           window.location.href = paymentResponse.redirect_url;
         } else if (method === 'click') {
           toast.error('Payment redirect URL not available. Please contact support.');
         } else {
           // Cash payment - show message
-          toast.success('Your booking is saved. Please complete the cash payment before expiration.');
+          toast.success(t.dashboard.bookingSaved);
         }
       } catch (paymentError) {
         console.error('Failed to create payment:', paymentError);
         toast.error('Booking created but payment initialization failed. Please contact support.');
       }
 
-      // Reload bookings list
+      // Reload bookings list and sessions
       await loadBookings();
       await loadPaymentHistory();
+      if (selectedTest) {
+        await loadSessions(selectedTest.id); // Refresh session list to update slots
+      }
 
       setShowBookingModal(false);
       resetBooking();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to create booking:', error);
-      toast.error('Failed to create booking. Please try again.');
+      
+      // Handle specific backend errors
+      const errorMessage = error?.response?.data?.session_id?.[0] || 
+                           error?.response?.data?.non_field_errors?.[0] ||
+                           error?.response?.data?.detail ||
+                           error?.message;
+      
+      if (errorMessage) {
+        // Check for specific error messages from backend
+        if (errorMessage.includes('already booked') || errorMessage.includes('You have already booked')) {
+          toast.error(t.dashboard.alreadyBookedError);
+          // Reload sessions to update is_booked status
+          if (selectedTest) {
+            await loadSessions(selectedTest.id);
+          }
+        } else if (errorMessage.includes('full') || errorMessage.includes('No slots available')) {
+          toast.error(t.dashboard.sessionFullError);
+          // Reload sessions to update available_slots
+          if (selectedTest) {
+            await loadSessions(selectedTest.id);
+          }
+        } else {
+          toast.error(errorMessage);
+        }
+      } else {
+        toast.error(t.dashboard.bookingFailed);
+      }
     } finally {
       setIsCreatingBooking(false);
     }
@@ -1015,12 +1057,12 @@ export function DashboardPage() {
                                 <div className="flex gap-2 flex-wrap">
                                   {isAlreadyBooked && (
                                     <span className="px-2 py-0.5 sm:py-1 text-xs rounded-full bg-yellow-600 text-white whitespace-nowrap">
-                                      Already Booked
+                                      {t.dashboard.alreadyBooked}
                                     </span>
                                   )}
                                   {isFull && !isAlreadyBooked && (
                                     <span className="px-2 py-0.5 sm:py-1 text-xs rounded-full bg-red-600 text-white whitespace-nowrap">
-                                      Full
+                                      {t.dashboard.full}
                                     </span>
                                   )}
                                 </div>
@@ -1035,7 +1077,7 @@ export function DashboardPage() {
                                 session.available_slots <= 3 ? 'text-orange-600 font-semibold' : 
                                 'text-gray-600'
                               }`}>
-                                {session.available_slots} {session.available_slots === 1 ? 'slot' : 'slots'} available
+                                {session.available_slots} {t.dashboard.slotsLeft}
                               </span>
                             </div>
                           </div>
@@ -1051,14 +1093,14 @@ export function DashboardPage() {
                     onClick={() => setBookingStep('test')}
                     className="flex-1"
                   >
-                    Back
+                    {t.dashboard.back}
                   </Button>
                   <Button
                     onClick={handleContinueToPayment}
                     disabled={!selectedSession}
                     className="flex-1 bg-[#182966] hover:bg-[#182966]/90"
                   >
-                    Continue to Payment
+                    {t.dashboard.continueToPayment}
                   </Button>
                 </div>
               </>
@@ -1068,27 +1110,27 @@ export function DashboardPage() {
               <>
                 <div className="mb-6">
                   <div className="bg-gray-50 rounded-lg p-4 mb-6">
-                    <h3 className="text-sm text-gray-600 mb-2">Booking Summary</h3>
+                    <h3 className="text-sm text-gray-600 mb-2">{t.dashboard.bookingSummary}</h3>
                     <div className="space-y-1">
                       <p className="text-lg text-[#182966]">{selectedTest?.name}</p>
                       {selectedSession && sessions.find((s) => s.id === selectedSession.id) && (
                         <p className="text-sm text-gray-600">
-                          {formatDate(sessions.find((s) => s.id === selectedSession.id)!.session_date)} at{' '}
+                          {formatDate(sessions.find((s) => s.id === selectedSession.id)!.session_date)} {t.common.at}{' '}
                           {selectedSession.time}
                         </p>
                       )}
                       {promoValidation ? (
                         <div className="mt-3 space-y-1">
                           <div className="flex justify-between text-sm">
-                            <span className="text-gray-600">Original Price:</span>
+                            <span className="text-gray-600">{t.dashboard.originalPrice}:</span>
                             <span className="line-through text-gray-500">{promoValidation.original_price} UZS</span>
                           </div>
                           <div className="flex justify-between text-sm">
-                            <span className="text-gray-600">Discount:</span>
+                            <span className="text-gray-600">{t.dashboard.discount}:</span>
                             <span className="text-green-600">-{promoValidation.discount_amount} UZS</span>
                           </div>
                           <div className="flex justify-between items-center pt-2 border-t border-gray-300">
-                            <span className="text-gray-900 font-medium">Final Price:</span>
+                            <span className="text-gray-900 font-medium">{t.dashboard.finalPrice}</span>
                             <span className="text-2xl text-[#182966] font-bold">{promoValidation.final_price} UZS</span>
                           </div>
                         </div>
@@ -1102,7 +1144,7 @@ export function DashboardPage() {
                   <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
                     <div className="flex items-center gap-2 mb-3">
                       <Tag className="h-5 w-5 text-blue-600" />
-                      <h3 className="text-sm font-medium text-blue-900">Have a Promo Code?</h3>
+                      <h3 className="text-sm font-medium text-blue-900">{t.dashboard.havePromoCode}</h3>
                     </div>
                     
                     {!promoValidation ? (
@@ -1114,7 +1156,7 @@ export function DashboardPage() {
                               setPromoCode(e.target.value.toUpperCase());
                               setPromoError('');
                             }}
-                            placeholder="Enter promo code"
+                            placeholder={t.dashboard.enterPromoCode}
                             className="flex-1"
                             disabled={isValidatingPromo || isCreatingBooking}
                           />
@@ -1123,7 +1165,7 @@ export function DashboardPage() {
                             disabled={!promoCode.trim() || isValidatingPromo || isCreatingBooking}
                             className="bg-blue-600 hover:bg-blue-700"
                           >
-                            {isValidatingPromo ? 'Validating...' : 'Apply'}
+                            {isValidatingPromo ? t.dashboard.validatingPromo : t.dashboard.apply}
                           </Button>
                         </div>
                         {promoError && (
@@ -1149,14 +1191,14 @@ export function DashboardPage() {
                             disabled={isCreatingBooking}
                             className="text-red-600 hover:text-red-700 text-sm"
                           >
-                            Remove
+                            {t.dashboard.remove}
                           </button>
                         </div>
                       </div>
                     )}
                   </div>
 
-                  <p className="text-gray-600 mb-4">Choose your payment method:</p>
+                  <p className="text-gray-600 mb-4">{t.dashboard.choosePaymentMethod}</p>
                   
                   {isCreatingBooking ? (
                     <div className="flex flex-col items-center justify-center py-12 space-y-4">
@@ -1165,8 +1207,8 @@ export function DashboardPage() {
                         transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                         className="w-12 h-12 border-4 border-[#182966] border-t-transparent rounded-full"
                       />
-                      <p className="text-[#182966]">Processing your booking...</p>
-                      <p className="text-sm text-gray-600">Please wait, do not close this window</p>
+                      <p className="text-[#182966]">{t.dashboard.processingBooking}</p>
+                      <p className="text-sm text-gray-600">{t.dashboard.pleaseWait}</p>
                     </div>
                   ) : (
                     <div className="space-y-3">
@@ -1176,7 +1218,7 @@ export function DashboardPage() {
                         className="w-full py-6 text-lg bg-[#0084FF] hover:bg-[#0084FF]/90 flex items-center justify-center gap-3"
                       >
                         <img src={clickLogo} alt="Click" className="h-6 w-auto" />
-                        Pay with Click
+                        {t.dashboard.payWithClick}
                       </Button>
                       <Button
                         onClick={() => handlePaymentMethod('cash')}
@@ -1184,7 +1226,7 @@ export function DashboardPage() {
                         variant="outline"
                         className="w-full py-6 text-lg border-[#182966] text-[#182966] hover:bg-[#182966]/10"
                       >
-                        Pay with Cash
+                        {t.dashboard.payWithCash}
                       </Button>
                       <p className="text-xs text-gray-500 text-center pt-2">
                         <strong>Note:</strong> Cash payment must be completed before expiration
@@ -1199,7 +1241,7 @@ export function DashboardPage() {
                   disabled={isCreatingBooking}
                   className="w-full"
                 >
-                  Back
+                  {t.dashboard.back}
                 </Button>
               </>
             )}
@@ -1405,7 +1447,7 @@ export function DashboardPage() {
                     disabled={!selectedSession}
                     className="flex-1 bg-[#182966] hover:bg-[#182966]/90"
                   >
-                    Continue to Payment
+                    {t.dashboard.continueToPayment}
                   </Button>
                 </div>
               </div>
