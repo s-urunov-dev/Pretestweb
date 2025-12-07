@@ -5,6 +5,7 @@ import { Check, AlertTriangle, X, Zap, Search, MessageSquare, Rocket, Flame, Bot
 import { authService } from "../services/auth.service";
 import { useLanguage } from "../contexts/LanguageContext";
 import westminsterBigBen from "figma:asset/3600c3807830360d61d240921531dcdb4a5b4085.png";
+import { resolveImageSrc } from "../utils/imageResolver";
 
 interface PricingCardProps {
   isRecommended?: boolean;
@@ -49,7 +50,7 @@ function PricingCard({
   delay = 0,
   recommendedBadge,
 }: PricingCardProps) {
-  const westminsterImage = westminsterBigBen;
+  const westminsterImage = resolveImageSrc(westminsterBigBen, '/images/westminster-bigben.png');
   
   return (
     <motion.div

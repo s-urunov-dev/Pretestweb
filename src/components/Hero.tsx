@@ -7,11 +7,16 @@ import newHeroImage from "figma:asset/6303e8dcc4b52dc83bedb7876578abe30165231a.p
 import { useState } from "react";
 import { ComingSoonModal } from "./ComingSoonModal";
 import { useLanguage } from "../contexts/LanguageContext";
+import { AdaptiveImage } from "./AdaptiveImage";
+import { resolveImageSrc } from "../utils/imageResolver";
 
 export function Hero() {
   const navigate = useNavigate();
   const [showComingSoonModal, setShowComingSoonModal] = useState(false);
   const { t, language } = useLanguage();
+  
+  // Resolve hero image for local and server
+  const heroImageSrc = resolveImageSrc(newHeroImage, '/images/hero-image.png');
   
   const handleBookTestClick = () => {
     if (authService.isAuthenticated()) {
@@ -45,7 +50,7 @@ export function Hero() {
         transition={{ duration: 1.4, ease: [0.25, 0.1, 0.25, 1.0] }}
         className="absolute inset-0 z-0"
         style={{
-          backgroundImage: `url(${newHeroImage})`,
+          backgroundImage: `url(${heroImageSrc})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center 35%',
           backgroundRepeat: 'no-repeat',

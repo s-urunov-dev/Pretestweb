@@ -44,9 +44,28 @@ npm install
 # Copy environment variables
 cp .env.example .env
 
+# Setup images for local development
+# See LOCAL_SETUP.md for detailed instructions
+# Add images to /public/images/ directory
+
 # Start development server
 npm run dev
 ```
+
+### 🖼️ Local Image Setup
+
+This project uses Figma assets that need to be manually added for local development:
+
+1. Create `/public/images/` directory (if not exists)
+2. Export and add these images from Figma:
+   - `click-logo.png` - Click payment logo
+   - `hero-image.png` - Landing hero background
+   - `feedback-image.png` - Feedback section image
+   - `westminster-bigben.png` - Pricing background
+
+**See [LOCAL_SETUP.md](./LOCAL_SETUP.md) for detailed instructions.**
+
+> **Note:** Images work automatically on Figma Make platform via CDN. Local setup is only needed for development outside Figma Make.
 
 ## 🌐 Environment Variables
 
@@ -77,6 +96,8 @@ netlify deploy --prod --dir=dist
 ```
 pretest-platform/
 ├── public/
+│   ├── images/            # Local development images
+│   │   └── README.md     # Image setup guide
 │   ├── sw.js              # Service worker
 │   ├── manifest.json      # PWA manifest
 │   ├── robots.txt         # SEO
@@ -86,6 +107,7 @@ pretest-platform/
 │   │   ├── ui/           # shadcn/ui components
 │   │   ├── Hero.tsx
 │   │   ├── Products.tsx
+│   │   ├── AdaptiveImage.tsx  # Smart image loader
 │   │   └── ...
 │   ├── pages/            # Page components
 │   │   ├── LoginPage.tsx
@@ -95,9 +117,12 @@ pretest-platform/
 │   ├── hooks/            # Custom hooks
 │   ├── services/         # API services
 │   ├── utils/            # Utilities
+│   │   └── imageResolver.ts  # Image path resolver
+│   ├── locales/          # i18n translations (uz, en, ru)
 │   ├── styles/           # Global styles
 │   └── App.tsx           # Main app
 ├── .env.example
+├── LOCAL_SETUP.md        # Local development guide
 ├── vercel.json           # Vercel config
 ├── netlify.toml          # Netlify config
 └── PRODUCTION_GUIDE.md   # Deployment guide

@@ -14,6 +14,8 @@ import { toast } from 'sonner';
 import clickLogo from '../assets/click-logo.svg';
 import { useLanguage } from '../contexts/LanguageContext';
 import { Input } from '../components/ui/input';
+import { AdaptiveImage } from '../components/AdaptiveImage';
+import { resolveImageSrc } from '../utils/imageResolver';
 
 interface BookingData {
   productId?: number;
@@ -1217,7 +1219,12 @@ export function DashboardPage() {
                         disabled={isCreatingBooking}
                         className="w-full py-6 text-lg bg-[#0084FF] hover:bg-[#0084FF]/90 flex items-center justify-center gap-3"
                       >
-                        <img src={clickLogo} alt="Click" className="h-6 w-auto" />
+                        <AdaptiveImage 
+                          figmaAsset={clickLogo} 
+                          fallback="/images/click-logo.png"
+                          alt="Click" 
+                          className="h-6 w-auto" 
+                        />
                         {t.dashboard.payWithClick}
                       </Button>
                       <Button
