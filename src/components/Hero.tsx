@@ -15,8 +15,16 @@ export function Hero() {
   const [showComingSoonModal, setShowComingSoonModal] = useState(false);
   const { t, language } = useLanguage();
   
-  // Resolve hero image for local and server
+  // TEMPORARY: Fallback to Unsplash if local image not found
   const heroImageSrc = resolveImageSrc(newHeroImage, '/images/hero-image.png');
+  const fallbackImage = 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1920&q=80';
+  
+  // Use fallback if local image fails
+  const finalImageSrc = heroImageSrc.includes('figma:asset') ? fallbackImage : heroImageSrc;
+  
+  console.log('[Hero] newHeroImage:', newHeroImage);
+  console.log('[Hero] heroImageSrc:', heroImageSrc);
+  console.log('[Hero] finalImageSrc:', finalImageSrc);
   
   const handleBookTestClick = () => {
     if (authService.isAuthenticated()) {
@@ -50,7 +58,7 @@ export function Hero() {
         transition={{ duration: 1.4, ease: [0.25, 0.1, 0.25, 1.0] }}
         className="absolute inset-0 z-0"
         style={{
-          backgroundImage: `url(${heroImageSrc})`,
+          backgroundImage: `url(${finalImageSrc})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center 35%',
           backgroundRepeat: 'no-repeat',
