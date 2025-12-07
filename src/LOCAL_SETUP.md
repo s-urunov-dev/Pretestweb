@@ -2,6 +2,8 @@
 
 Ushbu loyihani local kompyuterda ishlatish uchun quyidagi qadamlarni bajaring.
 
+> **Server setup uchun:** [SERVER_IMAGE_FIX.md](./SERVER_IMAGE_FIX.md) ga qarang
+
 ## 📦 Rasmlar Setup
 
 Loyiha Figma Make platformasida `figma:asset` scheme orqali rasmlarni yuklaydi. Local development uchun rasmlarni qo'lda joylashtirish kerak.

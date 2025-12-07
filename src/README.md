@@ -63,9 +63,11 @@ This project uses Figma assets that need to be manually added for local developm
    - `feedback-image.png` - Feedback section image
    - `westminster-bigben.png` - Pricing background
 
-**See [LOCAL_SETUP.md](./LOCAL_SETUP.md) for detailed instructions.**
+**📖 Detailed guides:**
+- **Local development:** [LOCAL_SETUP.md](./LOCAL_SETUP.md)
+- **Server deployment:** [SERVER_IMAGE_FIX.md](./SERVER_IMAGE_FIX.md)
 
-> **Note:** Images work automatically on Figma Make platform via CDN. Local setup is only needed for development outside Figma Make.
+> **Note:** Images work automatically on Figma Make platform via CDN. Local/server setup is only needed for development/production outside Figma Make.
 
 ## 🌐 Environment Variables
 
@@ -123,6 +125,7 @@ pretest-platform/
 │   └── App.tsx           # Main app
 ├── .env.example
 ├── LOCAL_SETUP.md        # Local development guide
+├── SERVER_IMAGE_FIX.md   # Server deployment guide
 ├── vercel.json           # Vercel config
 ├── netlify.toml          # Netlify config
 └── PRODUCTION_GUIDE.md   # Deployment guide
