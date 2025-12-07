@@ -34,6 +34,7 @@ export interface TestSession {
   available_slots: number;
   location?: string;
   location_url?: string;
+  is_booked?: boolean; // Indicates if current user already booked this session
 }
 
 interface ApiResponse<T> {

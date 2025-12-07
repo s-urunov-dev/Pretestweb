@@ -972,8 +972,8 @@ export function DashboardPage() {
                     <p className="text-center text-gray-500">No sessions available for this test type.</p>
                   ) : (
                     sessions.map((session) => {
-                      // Check if user already booked this session (excluding cancelled bookings)
-                      const isAlreadyBooked = [...futureBookings, ...pastBookings].some(
+                      // Use backend's is_booked field if available, otherwise fallback to client-side check
+                      const isAlreadyBooked = session.is_booked ?? [...futureBookings, ...pastBookings].some(
                         b => b.session.id === session.id && b.payment_status !== 'cancelled'
                       );
                       
@@ -986,7 +986,7 @@ export function DashboardPage() {
                       return (
                         <Card 
                           key={session.id} 
-                          className={`p-4 transition-all border-2 ${
+                          className={`p-3 sm:p-4 transition-all border-2 ${
                             isDisabled 
                               ? 'opacity-60 cursor-not-allowed' 
                               : 'cursor-pointer hover:shadow-lg'
@@ -1001,37 +1001,43 @@ export function DashboardPage() {
                           }`}
                           onClick={() => !isDisabled && handleSessionSelect(session.id, formatTime(session.session_time))}
                         >
-                          <div className="flex items-center justify-between">
-                            <div className="flex-1">
-                              <div className="flex items-center gap-2">
-                                {selectedSession?.id === session.id && !isDisabled && (
-                                  <CheckCircle2 className="h-5 w-5 text-blue-600" />
-                                )}
-                                <h3 className="text-lg text-[#182966]">
-                                  {formatDate(session.session_date)}
-                                </h3>
-                                {isAlreadyBooked && (
-                                  <span className="px-2 py-1 text-xs rounded-full bg-yellow-600 text-white">
-                                    Already Booked
-                                  </span>
-                                )}
-                                {isFull && !isAlreadyBooked && (
-                                  <span className="px-2 py-1 text-xs rounded-full bg-red-600 text-white">
-                                    Full
-                                  </span>
-                                )}
+                          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4">
+                            <div className="flex-1 min-w-0">
+                              <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-1">
+                                <div className="flex items-center gap-2 flex-wrap">
+                                  {selectedSession?.id === session.id && !isDisabled && (
+                                    <CheckCircle2 className="h-5 w-5 text-blue-600 flex-shrink-0" />
+                                  )}
+                                  <h3 className="text-base sm:text-lg text-[#182966] break-words">
+                                    {formatDate(session.session_date)}
+                                  </h3>
+                                </div>
+                                <div className="flex gap-2 flex-wrap">
+                                  {isAlreadyBooked && (
+                                    <span className="px-2 py-0.5 sm:py-1 text-xs rounded-full bg-yellow-600 text-white whitespace-nowrap">
+                                      Already Booked
+                                    </span>
+                                  )}
+                                  {isFull && !isAlreadyBooked && (
+                                    <span className="px-2 py-0.5 sm:py-1 text-xs rounded-full bg-red-600 text-white whitespace-nowrap">
+                                      Full
+                                    </span>
+                                  )}
+                                </div>
                               </div>
-                              <p className="text-sm text-gray-600 mt-1">
+                              <p className="text-sm text-gray-600">
                                 Time: {formatTime(session.session_time)}
                               </p>
                             </div>
-                            <span className={`text-sm ${
-                              isFull ? 'text-red-600 font-semibold' : 
-                              session.available_slots <= 3 ? 'text-orange-600 font-semibold' : 
-                              'text-gray-600'
-                            }`}>
-                              {session.available_slots} {session.available_slots === 1 ? 'slot' : 'slots'} available
-                            </span>
+                            <div className="flex-shrink-0 self-start sm:self-center">
+                              <span className={`text-xs sm:text-sm whitespace-nowrap ${
+                                isFull ? 'text-red-600 font-semibold' : 
+                                session.available_slots <= 3 ? 'text-orange-600 font-semibold' : 
+                                'text-gray-600'
+                              }`}>
+                                {session.available_slots} {session.available_slots === 1 ? 'slot' : 'slots'} available
+                              </span>
+                            </div>
                           </div>
                         </Card>
                       );

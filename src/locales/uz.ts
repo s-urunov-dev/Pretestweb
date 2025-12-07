@@ -49,7 +49,7 @@ export const uz = {
   products: {
     title: "Test paketingizni tanlang",
     subtitle: "Tayyorgarlik ehtiyojlaringizga mos keladigan paketni tanlang. Barcha testlar rasmiy IELTS formati va vaqt rejasiga amal qiladi",
-    choosePackage: "O'zingizga mos paketni tanlang. Pretest — Rasmiy IELTS Imtihoni Premium Simulyatsiyasi.",
+    choosePackage: "O'zingizga mos paketni tanlang.",
     selectPackageDesc: "",
     mostPopular: "Eng mashhur",
     dailyPractice: "Daily Practice Test",

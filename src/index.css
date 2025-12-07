@@ -2397,6 +2397,10 @@
     letter-spacing: var(--tracking-widest);
   }
 
+  .break-words {
+    overflow-wrap: break-word;
+  }
+
   .whitespace-nowrap {
     white-space: nowrap;
   }
@@ -3576,6 +3580,12 @@
   }
 
   @media (width >= 40rem) {
+    .sm\:justify-between {
+      justify-content: space-between;
+    }
+  }
+
+  @media (width >= 40rem) {
     .sm\:justify-end {
       justify-content: flex-end;
     }
@@ -3638,6 +3648,12 @@
   }
 
   @media (width >= 40rem) {
+    .sm\:self-center {
+      align-self: center;
+    }
+  }
+
+  @media (width >= 40rem) {
     .sm\:rounded-2xl {
       border-radius: var(--radius-2xl);
     }
@@ -3694,6 +3710,12 @@
   @media (width >= 40rem) {
     .sm\:px-6 {
       padding-inline: calc(var(--spacing) * 6);
+    }
+  }
+
+  @media (width >= 40rem) {
+    .sm\:py-1 {
+      padding-block: calc(var(--spacing) * 1);
     }
   }
 
