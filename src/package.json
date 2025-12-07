@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "check:images": "ls -la public/images/ 2>/dev/null || echo '⚠️  No images found. Using Unsplash fallbacks.'",
+    "help:images": "cat QUICKSTART_NO_IMAGES.md"
   },
   "dependencies": {
     "react": "^18.3.1",

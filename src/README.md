@@ -44,15 +44,27 @@ npm install
 # Copy environment variables
 cp .env.example .env
 
-# Setup images for local development
-# See LOCAL_SETUP.md for detailed instructions
-# Add images to /public/images/ directory
+# ⚡ No image setup needed! Automatic Unsplash fallbacks enabled.
+# (Optional) Add custom images to /public/images/ - see guides below
 
 # Start development server
 npm run dev
 ```
 
 ### 🖼️ Local Image Setup
+
+**NEW: Rasmlar optional!** 🎉
+
+Loyiha **avtomatik ravishda Unsplash** dan placeholder rasmlar yuklab ishlaydi. Hech qanday setup kerak emas!
+
+#### **Option 1: Use Unsplash Fallbacks (Recommended for Quick Start)**
+
+```bash
+npm run dev
+# That's it! Images load automatically from Unsplash CDN
+```
+
+#### **Option 2: Use Custom Images (Production)**
 
 This project uses Figma assets that need to be manually added for local development:
 
@@ -64,10 +76,22 @@ This project uses Figma assets that need to be manually added for local developm
    - `westminster-bigben.png` - Pricing background
 
 **📖 Detailed guides:**
+- **Quick Start (No Images):** [QUICKSTART_NO_IMAGES.md](./QUICKSTART_NO_IMAGES.md) ⭐
+- **Complete Solution:** [IMAGE_SOLUTION_SUMMARY.md](./IMAGE_SOLUTION_SUMMARY.md)
 - **Local development:** [LOCAL_SETUP.md](./LOCAL_SETUP.md)
 - **Server deployment:** [SERVER_IMAGE_FIX.md](./SERVER_IMAGE_FIX.md)
 
 > **Note:** Images work automatically on Figma Make platform via CDN. Local/server setup is only needed for development/production outside Figma Make.
+
+#### **Check Images Status:**
+
+```bash
+# Check if custom images exist
+npm run check:images
+
+# View image help guide
+npm run help:images
+```
 
 ## 🌐 Environment Variables
 

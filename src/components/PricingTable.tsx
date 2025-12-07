@@ -6,6 +6,7 @@ import { authService } from "../services/auth.service";
 import { useLanguage } from "../contexts/LanguageContext";
 import westminsterBigBen from "figma:asset/3600c3807830360d61d240921531dcdb4a5b4085.png";
 import { resolveImageSrc } from "../utils/imageResolver";
+import { AdaptiveImage } from "./AdaptiveImage";
 
 interface PricingCardProps {
   isRecommended?: boolean;

@@ -1222,6 +1222,7 @@ export function DashboardPage() {
                         <AdaptiveImage 
                           figmaAsset={clickLogo} 
                           fallback="/images/click-logo.png"
+                          filename="click-logo.png"
                           alt="Click" 
                           className="h-6 w-auto" 
                         />

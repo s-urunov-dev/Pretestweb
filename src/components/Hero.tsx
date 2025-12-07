@@ -15,16 +15,14 @@ export function Hero() {
   const [showComingSoonModal, setShowComingSoonModal] = useState(false);
   const { t, language } = useLanguage();
   
-  // TEMPORARY: Fallback to Unsplash if local image not found
+  // Resolve image with fallback priority:
+  // 1. Figma CDN (newHeroImage) - if on Figma Make
+  // 2. Local /images/hero-image.png - if exists
+  // 3. Unsplash - automatic fallback via AdaptiveImage
   const heroImageSrc = resolveImageSrc(newHeroImage, '/images/hero-image.png');
-  const fallbackImage = 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1920&q=80';
-  
-  // Use fallback if local image fails
-  const finalImageSrc = heroImageSrc.includes('figma:asset') ? fallbackImage : heroImageSrc;
   
   console.log('[Hero] newHeroImage:', newHeroImage);
   console.log('[Hero] heroImageSrc:', heroImageSrc);
-  console.log('[Hero] finalImageSrc:', finalImageSrc);
   
   const handleBookTestClick = () => {
     if (authService.isAuthenticated()) {
@@ -57,14 +55,19 @@ export function Hero() {
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 1.4, ease: [0.25, 0.1, 0.25, 1.0] }}
         className="absolute inset-0 z-0"
-        style={{
-          backgroundImage: `url(${finalImageSrc})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center 35%',
-          backgroundRepeat: 'no-repeat',
-          imageRendering: 'crisp-edges',
-        }}
       >
+        {/* Use AdaptiveImage as background */}
+        <AdaptiveImage
+          figmaAsset={newHeroImage}
+          fallback="/images/hero-image.png"
+          filename="hero-image.png"
+          alt="IELTS Hero Background"
+          className="w-full h-full object-cover"
+          style={{
+            objectPosition: 'center 35%',
+            imageRendering: 'crisp-edges',
+          }}
+        />
         {/* Gradient overlay for readability */}
         <div 
           className="absolute inset-0"
