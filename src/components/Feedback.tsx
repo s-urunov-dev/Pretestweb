@@ -4,12 +4,13 @@ import { Button } from "./ui/button";
 import { Video, Clock, Star, CheckCircle } from "lucide-react";
 import { authService } from "../services/auth.service";
 import { useLanguage } from "../contexts/LanguageContext";
-import feedbackImage from 'figma:asset/7a857004c4db27e89045589b1490b9e5d93c9bac.png';
-import { AdaptiveImage } from "./AdaptiveImage";
 
 export function Feedback() {
   const { t } = useLanguage();
   const navigate = useNavigate();
+  
+  // Use direct path from public folder (no import needed)
+  const feedbackImage = "/images/feedback-image.png";
   
   const steps = [
     {
@@ -119,10 +120,8 @@ export function Feedback() {
             className="relative"
           >
             <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl">
-              <AdaptiveImage
-                figmaAsset={feedbackImage}
-                fallback="/images/feedback-image.png"
-                filename="feedback-image.png"
+              <img
+                src={feedbackImage}
                 alt="IELTS Expert providing personalized video feedback"
                 className="w-full h-[300px] sm:h-[400px] lg:h-[500px] object-cover"
               />

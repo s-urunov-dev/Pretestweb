@@ -3,26 +3,17 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import { ArrowRight, CheckCircle } from "lucide-react";
 import { authService } from "../services/auth.service";
-import newHeroImage from "figma:asset/6303e8dcc4b52dc83bedb7876578abe30165231a.png";
 import { useState } from "react";
 import { ComingSoonModal } from "./ComingSoonModal";
 import { useLanguage } from "../contexts/LanguageContext";
-import { AdaptiveImage } from "./AdaptiveImage";
-import { resolveImageSrc } from "../utils/imageResolver";
 
 export function Hero() {
   const navigate = useNavigate();
   const [showComingSoonModal, setShowComingSoonModal] = useState(false);
   const { t, language } = useLanguage();
   
-  // Resolve image with fallback priority:
-  // 1. Figma CDN (newHeroImage) - if on Figma Make
-  // 2. Local /images/hero-image.png - if exists
-  // 3. Unsplash - automatic fallback via AdaptiveImage
-  const heroImageSrc = resolveImageSrc(newHeroImage, '/images/hero-image.png');
-  
-  console.log('[Hero] newHeroImage:', newHeroImage);
-  console.log('[Hero] heroImageSrc:', heroImageSrc);
+  // Use direct path from public folder (no import needed)
+  const heroImage = "/images/hero-image.png";
   
   const handleBookTestClick = () => {
     if (authService.isAuthenticated()) {
@@ -56,11 +47,9 @@ export function Hero() {
         transition={{ duration: 1.4, ease: [0.25, 0.1, 0.25, 1.0] }}
         className="absolute inset-0 z-0"
       >
-        {/* Use AdaptiveImage as background */}
-        <AdaptiveImage
-          figmaAsset={newHeroImage}
-          fallback="/images/hero-image.png"
-          filename="hero-image.png"
+        {/* Use direct image import */}
+        <img
+          src={heroImage}
           alt="IELTS Hero Background"
           className="w-full h-full object-cover"
           style={{

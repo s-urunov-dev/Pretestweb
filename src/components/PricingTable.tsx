@@ -4,9 +4,6 @@ import { Button } from "./ui/button";
 import { Check, AlertTriangle, X, Zap, Search, MessageSquare, Rocket, Flame, Bot } from "lucide-react";
 import { authService } from "../services/auth.service";
 import { useLanguage } from "../contexts/LanguageContext";
-import westminsterBigBen from "figma:asset/3600c3807830360d61d240921531dcdb4a5b4085.png";
-import { resolveImageSrc } from "../utils/imageResolver";
-import { AdaptiveImage } from "./AdaptiveImage";
 
 interface PricingCardProps {
   isRecommended?: boolean;
@@ -51,7 +48,8 @@ function PricingCard({
   delay = 0,
   recommendedBadge,
 }: PricingCardProps) {
-  const westminsterImage = resolveImageSrc(westminsterBigBen, '/images/westminster-bigben.png');
+  // Use direct path from public folder (no import needed)
+  const westminsterBigBen = "/images/westminster-bigben.png";
   
   return (
     <motion.div
@@ -74,7 +72,7 @@ function PricingCard({
         <div 
           className="absolute inset-0 z-0 rounded-2xl md:rounded-3xl overflow-hidden"
           style={{
-            backgroundImage: `url(${westminsterImage})`,
+            backgroundImage: `url(${westminsterBigBen})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             opacity: 0.08,
