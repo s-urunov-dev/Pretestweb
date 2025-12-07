@@ -16,6 +16,14 @@ export function resolveImageSrc(figmaAssetPath: string | undefined, fallbackPath
   // Agar bu allaqachon oddiy path bo'lsa (/ bilan boshlansa), o'zini qaytarish
   if (typeof figmaAssetPath === 'string' && (figmaAssetPath.startsWith('/') || figmaAssetPath.startsWith('http'))) {
     console.log('[ImageResolver] Already resolved path:', figmaAssetPath);
+    
+    // IMPORTANT: Agar /src/assets/ path bo'lsa, fallback ishlatish
+    // Chunki Vite figma:asset'ni /src/assets/ ga compile qiladi lekin bu papka local'da yo'q
+    if (figmaAssetPath.includes('/src/assets/') && fallbackPath) {
+      console.log('[ImageResolver] Detected /src/assets/, using fallback:', fallbackPath);
+      return fallbackPath;
+    }
+    
     return figmaAssetPath;
   }
 
