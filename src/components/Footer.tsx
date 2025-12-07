@@ -100,7 +100,7 @@ export function Footer() {
 
   // Use backend data if available, otherwise use defaults
   const contactEmail = siteInfo?.email || "info@pretest.com";
-  const contactPhone = siteInfo?.phone_number || "+1 (234) 567-890";
+  const contactPhone = siteInfo?.phone || "+998 (77) 101-69-00";
   const contactAddress = siteInfo?.address || "London, United Kingdom";
   const locationUrl = siteInfo?.location || "#";
   const description = siteInfo?.description || "Your trusted partner for authentic IELTS mock tests and personalized feedback from expert examiners.";

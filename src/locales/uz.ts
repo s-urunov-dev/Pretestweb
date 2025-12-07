@@ -132,7 +132,7 @@ export const uz = {
     studentSatisfaction: "Talabalar qoniqishi",
     whyChoose: "Nima uchun Pretest?",
     reason1: "Asl offline IELTS mock testlar",
-    reason2: "Sobiq eksaminatorlardan shaxsiylashtirilgan video feedback",
+    reason2: "Sobiq examinerlardan individual video feedback",
     reason3: "Nazoratchilar bilan real imtihon sharoitlari",
     reason4: "Batafsil ishlash hisobotlari va tahlillari",
     reason5: "Qulayligingiz uchun moslashuvchan rejalashtirish",
@@ -167,7 +167,7 @@ export const uz = {
 
   // Feedback Component (Landing)
   feedbackLanding: {
-    title: "Shaxsiylashtirilgan video feedback",
+    title: "Individual video feedback",
     subtitle: "Ballingizni oshirish uchun nimani yaxshilashingiz kerakligini aniq biladigan sobiq IELTS ekspertlaridan ekspert ko'rsatmalarni oling",
     getYourFeedback: "Feedbackni oling",
     step1Title: "Ishingizni yuklang",
@@ -236,7 +236,7 @@ export const uz = {
     progressSubtitle: "Mana sizning IELTS tayyorgarlik jarayoningiz",
     totalTests: "Jami testlar",
     averageScore: "O'rtacha ball",
-    upcomingTests: "Yaqinlashib kelayotgan testlar",
+    upcomingTests: "Yaqin testlar",
     bestScore: "Eng yaxshi ball",
     pendingBookings: "Kutilayotgan band qilishlar",
     paymentPending: "To'lov kutilmoqda",
