@@ -13,6 +13,32 @@ export interface TestResult {
   created_at: string;
 }
 
+export interface TestResultDetail {
+  id: string;
+  reading: number;
+  listening: number;
+  writing: number;
+  speaking: number;
+  overall: number;
+  pdf_file: string | null;
+  created_at: string;
+  session: {
+    id: number;
+    date: string;
+    time: string;
+    location: string;
+  };
+  test_type: {
+    id: number;
+    name: string;
+    product_type: string;
+  };
+  user: {
+    full_name: string;
+    phone_number: string;
+  };
+}
+
 class TestResultService {
   // Get all test results for current user
   async getTestResults(): Promise<TestResult[]> {
@@ -21,6 +47,17 @@ class TestResultService {
       return response;
     } catch (error) {
       console.error('TestResultService.getTestResults error:', error);
+      throw error;
+    }
+  }
+
+  // Get test result detail by ID
+  async getTestResultDetail(resultId: string): Promise<TestResultDetail> {
+    try {
+      const response = await apiService.get<TestResultDetail>(`/api/v1/test/result/${resultId}/`);
+      return response;
+    } catch (error) {
+      console.error('TestResultService.getTestResultDetail error:', error);
       throw error;
     }
   }
