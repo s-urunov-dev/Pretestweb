@@ -54,7 +54,7 @@ class TestResultService {
   // Get test result detail by ID
   async getTestResultDetail(resultId: string): Promise<TestResultDetail> {
     try {
-      const response = await apiService.get<TestResultDetail>(`/api/v1/test/result/${resultId}/`);
+      const response = await apiService.get<TestResultDetail>(ENDPOINTS.TEST_RESULTS.DETAIL(resultId));
       return response;
     } catch (error) {
       console.error('TestResultService.getTestResultDetail error:', error);
