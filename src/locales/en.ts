@@ -399,6 +399,6 @@ about: {
     none: "None",
     comingSoon: "Coming Soon",
     at: "at",
-    of: "out of",
+    of: "of",
   },
 };
