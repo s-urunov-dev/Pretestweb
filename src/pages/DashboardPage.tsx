@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
+import { useNavigate } from 'react-router-dom';
 import { DashboardLayout } from './DashboardLayout';
 import { Card } from '../components/ui/card';
 import { Button } from '../components/ui/button';
-import { Calendar, Clock, TrendingUp, Award, CheckCircle2, BookOpen, MapPin, X, AlertCircle, Tag } from 'lucide-react';
+import { Calendar, Clock, TrendingUp, Award, CheckCircle2, BookOpen, MapPin, X, AlertCircle, Tag, ExternalLink } from 'lucide-react';
 import { publicService, Product, TestSession } from '../services/public.service';
 import { bookingService, Booking, BookingSession } from '../services/booking.service';
 import { dashboardService, TestResult, PaymentHistory, DashboardStats } from '../services/dashboard.service';
@@ -28,6 +29,7 @@ interface BookingData {
 export function DashboardPage() {
   const { user } = useAuth();
   const { t } = useLanguage();
+  const navigate = useNavigate();
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [bookingStep, setBookingStep] = useState<'test' | 'session' | 'payment'>('test');
   const [selectedTest, setSelectedTest] = useState<Product | null>(null);
@@ -800,10 +802,17 @@ export function DashboardPage() {
                 const hasScores = test.reading || test.listening || test.writing || test.speaking || test.overall;
                 
                 return (
-                  <Card key={test.id} className="p-6 hover:shadow-lg transition-shadow">
+                  <Card 
+                    key={test.id} 
+                    className="p-6 hover:shadow-lg transition-shadow cursor-pointer"
+                    onClick={() => navigate(`/result/${test.result_id || test.id}`)}
+                  >
                     <div className="flex flex-col lg:flex-row justify-between gap-4">
                       <div className="flex-shrink-0">
-                        <h3 className="text-lg mb-1 text-[#182966]">{test.test_type || 'IELTS Test'}</h3>
+                        <div className="flex items-center gap-2">
+                          <h3 className="text-lg mb-1 text-[#182966]">{test.test_type || 'IELTS Test'}</h3>
+                          <ExternalLink className="h-4 w-4 text-[#182966]/40" />
+                        </div>
                         <p className="text-sm text-gray-600">{formatDate(test.test_date)}</p>
                       </div>
                       {hasScores ? (

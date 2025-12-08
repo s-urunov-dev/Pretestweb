@@ -12,6 +12,7 @@ export interface TestResult {
   speaking?: number | null;
   overall: number;
   created_at: string;
+  result_id?: string; // For linking to detail page (e.g., "RES000001")
 }
 
 export interface PaymentHistory {

@@ -19,6 +19,7 @@ const ResetPasswordPage = lazy(() => import("./pages/ResetPasswordPage").then(m 
 const DashboardPage = lazy(() => import("./pages/DashboardPage").then(m => ({ default: m.DashboardPage })));
 const FeedbackPage = lazy(() => import("./pages/FeedbackPage").then(m => ({ default: m.FeedbackPage })));
 const ProfilePage = lazy(() => import("./pages/ProfilePage").then(m => ({ default: m.ProfilePage })));
+const TestResultDetailPage = lazy(() => import("./pages/TestResultDetailPage").then(m => ({ default: m.TestResultDetailPage })));
 
 // Import loading fallback
 import { LoadingFallback } from "./components/LoadingFallback";
@@ -155,6 +156,17 @@ function AppContent() {
               <ProtectedRoute>
                 <Suspense fallback={<LoadingFallback />}>
                   <ProfilePage />
+                </Suspense>
+              </ProtectedRoute>
+            } 
+          />
+          
+          <Route 
+            path="/result/:resultId" 
+            element={
+              <ProtectedRoute>
+                <Suspense fallback={<LoadingFallback />}>
+                  <TestResultDetailPage />
                 </Suspense>
               </ProtectedRoute>
             } 
