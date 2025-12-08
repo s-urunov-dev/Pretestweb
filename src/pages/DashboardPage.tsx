@@ -696,7 +696,7 @@ export function DashboardPage() {
           transition={{ duration: 0.5, delay: 0.4 }}
         >
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0 mb-4">
-            <h2 className="text-xl sm:text-2xl text-[#182966]">Upcoming Tests</h2>
+            <h2 className="text-xl sm:text-2xl text-[#182966]">{t.dashboard.upcomingTests}</h2>
             <Button
               onClick={() => setShowBookingModal(true)}
               className="bg-[#182966] hover:bg-[#182966]/90 w-full sm:w-auto"
@@ -786,7 +786,7 @@ export function DashboardPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.5 }}
         >
-          <h2 className="text-xl sm:text-2xl mb-4 text-[#182966]">Previous Test Results</h2>
+          <h2 className="text-xl sm:text-2xl mb-4 text-[#182966]">{t.dashboard.previousResults}</h2>
           <div className="space-y-4">
             {isLoadingTestResults ? (
               <Card className="p-6">
