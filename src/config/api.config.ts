@@ -53,6 +53,7 @@ export const ENDPOINTS = {
   // Test Results
   TEST_RESULTS: {
     LIST: '/test/result/',
+    DETAIL: (id: string) => `/test/result/${id}/`,
   },
   
   // Payments
