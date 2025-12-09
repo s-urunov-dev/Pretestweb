@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { useLanguage } from "../contexts/LanguageContext";
 import { SEOHead } from "../components/SEOHead";
 import { PretestLogo } from "../components/PretestLogo";
+import { trackLogin } from "../utils/analytics";
 
 export function LoginPage() {
     const [phoneNumber, setPhoneNumber] = useState("");
@@ -81,6 +82,9 @@ export function LoginPage() {
         try {
             await login(cleanPhoneNumber, password);
             toast.success(t.auth.loginTitle);
+            
+            // Track successful login
+            trackLogin('phone_number');
 
             const pendingBooking = localStorage.getItem('pendingBooking');
 

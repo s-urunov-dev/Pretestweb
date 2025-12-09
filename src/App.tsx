@@ -1,11 +1,19 @@
 import { useEffect, lazy, Suspense } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { Toaster } from "./components/ui/sonner";
 import { AuthProvider } from "./contexts/AuthContext";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { ScrollToTop } from "./components/ScrollToTop";
+
+// Declare gtag for TypeScript
+declare global {
+  interface Window {
+    gtag: (command: string, targetId: string, config?: Record<string, any>) => void;
+    dataLayer: any[];
+  }
+}
 
 // Import landing page (critical for FCP/LCP)
 import { LandingPage } from "./pages/LandingPage";
@@ -45,6 +53,21 @@ function NotFoundPage() {
   );
 }
 
+// Google Analytics Page Tracker Component
+function GoogleAnalyticsTracker() {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('config', 'G-0WZFE3PSMS', {
+        page_path: location.pathname + location.search,
+      });
+    }
+  }, [location]);
+
+  return null;
+}
+
 function AppContent() {
   useEffect(() => {
     // Initialize production mode
@@ -65,6 +88,7 @@ function AppContent() {
 
   return (
     <BrowserRouter>
+      <GoogleAnalyticsTracker />
       <ScrollToTop />
       <div className="min-h-screen bg-white">
         <Routes>

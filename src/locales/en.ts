@@ -105,6 +105,22 @@ about: {
     feature3: "Fast results",
     feature4: "Accurate scoring",
     fullTest: "Full Test",
+    // Time filters
+    timeFilterLabel: "Time:",
+    today: "Today",
+    thisWeek: "This Week",
+    next2Weeks: "Next 2 Weeks",
+    thisMonth: "This Month",
+    allTime: "All",
+    // Calendar
+    selectDate: "Select a date",
+    allSessions: "All sessions",
+    noSessionsOnDate: "No sessions on this date",
+    hasSessions: "Has sessions",
+    selected: "Selected",
+    pleaseSelectDate: "Please select a date from the calendar",
+    chooseDateWithSessions: "Choose a date with available sessions",
+    noSessionsForSelectedDate: "No sessions available for the selected date",
   },
 
   // Testimonials

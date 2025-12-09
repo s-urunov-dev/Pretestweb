@@ -7,9 +7,11 @@ import { publicService, TestSession } from "../services/public.service";
 import { authService } from "../services/auth.service";
 import { MOCK_SESSIONS } from "../data/mock-data";
 import { useLanguage } from "../contexts/LanguageContext";
+import { SessionCalendar } from "./SessionCalendar";
 
 export function TestSessions() {
   const [selectedType, setSelectedType] = useState<string>("all");
+  const [selectedDate, setSelectedDate] = useState<string | null>(null); // null = show all sessions
   const [hoveredId, setHoveredId] = useState<number | null>(null);
   const [sessions, setSessions] = useState<TestSession[]>([]);
   const [allSessions, setAllSessions] = useState<TestSession[]>([]); // Store all sessions for type detection
@@ -112,6 +114,11 @@ export function TestSessions() {
     return (booked / session.max_participants) * 100;
   };
 
+  // Get filtered sessions
+  const filteredSessions = selectedDate
+    ? sessions.filter(session => session.session_date === selectedDate)
+    : [];
+
   if (isLoading) {
     return (
       <section id="sessions" className="py-24 bg-white">
@@ -174,14 +181,35 @@ export function TestSessions() {
           </motion.div>
         )}
 
+        {/* Date Filter */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3 }}
+          className="mb-8 px-4"
+        >
+          <SessionCalendar
+            sessions={sessions}
+            selectedDate={selectedDate}
+            onDateSelect={setSelectedDate}
+          />
+        </motion.div>
+
         {/* Sessions Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 max-w-5xl mx-auto">
-          {sessions.length === 0 ? (
+          {!selectedDate ? (
+            <div className="col-span-2 text-center py-12">
+              <Calendar className="h-16 w-16 text-[#182966]/30 mx-auto mb-4" />
+              <p className="text-[#182966]/70 text-lg mb-2">{t.testSessions.pleaseSelectDate}</p>
+              <p className="text-[#182966]/50 text-sm">{t.testSessions.chooseDateWithSessions}</p>
+            </div>
+          ) : filteredSessions.length === 0 ? (
             <div className="col-span-2 text-center py-12 text-[#182966]/70">
-              No sessions available for the selected filter.
+              {t.testSessions.noSessionsForSelectedDate}
             </div>
           ) : (
-            sessions.map((session, index) => {
+            filteredSessions.map((session, index) => {
               const progressPercentage = getProgressPercentage(session);
               const isFullSimulation = session.product.product_type === 'full';
               
