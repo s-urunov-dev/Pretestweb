@@ -103,6 +103,22 @@ export const uz = {
     feature3: "Tezkor natijalar",
     feature4: "Aniq baholash",
     fullTest: "To'liq test",
+    // Time filters
+    timeFilterLabel: "Vaqt bo'yicha:",
+    today: "Bugun",
+    thisWeek: "Shu hafta",
+    next2Weeks: "Keyingi 2 hafta",
+    thisMonth: "Shu oy",
+    allTime: "Hammasi",
+    // Calendar
+    selectDate: "Sanani tanlang",
+    allSessions: "Barcha sessionlar",
+    noSessionsOnDate: "Bu kunda session yo'q",
+    hasSessions: "Sessionlar bor",
+    selected: "Tanlangan",
+    pleaseSelectDate: "Iltimos, kalendardan sanani tanlang",
+    chooseDateWithSessions: "Mavjud sessionlar bo'lgan sanani tanlang",
+    noSessionsForSelectedDate: "Tanlangan sana uchun sessionlar yo'q",
   },
 
   // Testimonials

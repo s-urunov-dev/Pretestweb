@@ -35,6 +35,13 @@
 - [x] Structured data (JSON-LD)
 - [x] Canonical URLs
 
+### Analytics
+- [x] Google Analytics 4 installed (G-0WZFE3PSMS)
+- [x] Page view tracking enabled
+- [x] Custom event tracking utilities created
+- [ ] Event tracking added to key actions (login, register, booking, payment)
+- [ ] Google Analytics dashboard verified
+
 ### Mobile
 - [x] Viewport meta tag
 - [x] Touch optimization
@@ -51,6 +58,7 @@
 - [ ] Test on mobile devices
 - [ ] Test on different browsers
 - [ ] Test offline mode
+- [ ] Verify Google Analytics tracking
 
 ## Deployment Steps 📦
 
@@ -73,8 +81,22 @@ npm install
 # Build
 npm run build
 
+# Verify Google Analytics in build
+grep -r "G-0WZFE3PSMS" dist/
+
 # Preview (optional)
 npm run preview
+```
+
+### 3. Verify Google Analytics
+```bash
+# After deployment, check:
+# 1. Open https://pre-test.uz in browser
+# 2. Open Browser DevTools (F12)
+# 3. Check Console for gtag loaded
+# 4. Check Network tab for gtag.js request
+# 5. Go to Google Analytics Real-Time dashboard
+# 6. Navigate site and see activity in real-time
 ```
 
 ### 3. Deploy

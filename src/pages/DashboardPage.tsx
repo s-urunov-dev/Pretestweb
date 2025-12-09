@@ -17,6 +17,7 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { Input } from '../components/ui/input';
 import { AdaptiveImage } from '../components/AdaptiveImage';
 import { resolveImageSrc } from '../utils/imageResolver';
+import { SessionCalendar } from '../components/SessionCalendar';
 
 interface BookingData {
   productId?: number;
@@ -61,6 +62,9 @@ export function DashboardPage() {
   const [promoValidation, setPromoValidation] = useState<PromocodeValidationResponse | null>(null);
   const [isValidatingPromo, setIsValidatingPromo] = useState(false);
   const [promoError, setPromoError] = useState('');
+  
+  // Date filter state
+  const [sessionSelectedDate, setSessionSelectedDate] = useState<string | null>(null);
   
   // Countdown timers for pending bookings
   const [countdowns, setCountdowns] = useState<Record<number, { hours: number; minutes: number; seconds: number }>>({});
@@ -337,6 +341,7 @@ export function DashboardPage() {
     setPromoCode('');
     setPromoValidation(null);
     setPromoError('');
+    setSessionSelectedDate(null); // Reset calendar date selection
   };
 
   // Helper function to format date
@@ -698,7 +703,10 @@ export function DashboardPage() {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0 mb-4">
             <h2 className="text-xl sm:text-2xl text-[#182966]">Upcoming Tests</h2>
             <Button
-              onClick={() => setShowBookingModal(true)}
+              onClick={() => {
+                setShowBookingModal(true);
+                loadProducts(); // Load products when modal opens
+              }}
               className="bg-[#182966] hover:bg-[#182966]/90 w-full sm:w-auto"
             >
               Book New Test
@@ -1017,84 +1025,111 @@ export function DashboardPage() {
 
             {bookingStep === 'session' && (
               <>
-                <p className="text-gray-600 mb-6">Select date and time for your test</p>
-                <div className="space-y-4 mb-6">
+                <p className="text-gray-600 mb-4">Select date and time for your test</p>
+                
+                {/* Calendar Filter */}
+                <div className="mb-6">
+                  <SessionCalendar
+                    sessions={sessions}
+                    selectedDate={sessionSelectedDate}
+                    onDateSelect={setSessionSelectedDate}
+                    compact={true}
+                  />
+                </div>
+
+                <div className="space-y-4 mb-6 max-h-[40vh] overflow-y-auto">
                   {isLoadingSessions ? (
                     <p>Loading available sessions...</p>
                   ) : sessions.length === 0 ? (
                     <p className="text-center text-gray-500">No sessions available for this test type.</p>
+                  ) : !sessionSelectedDate ? (
+                    <div className="text-center py-8">
+                      <Calendar className="h-12 w-12 text-[#182966]/30 mx-auto mb-3" />
+                      <p className="text-[#182966]/70 mb-1">{t.testSessions.pleaseSelectDate}</p>
+                      <p className="text-[#182966]/50 text-sm">{t.testSessions.chooseDateWithSessions}</p>
+                    </div>
                   ) : (
-                    sessions.map((session) => {
-                      // Use backend's is_booked field if available, otherwise fallback to client-side check
-                      const isAlreadyBooked = session.is_booked ?? [...futureBookings, ...pastBookings].some(
-                        b => b.session.id === session.id && b.payment_status !== 'cancelled'
-                      );
-                      
-                      // Check if session is full
-                      const isFull = session.available_slots === 0;
-                      
-                      // Determine if this session can be selected
-                      const isDisabled = isAlreadyBooked || isFull;
-                      
-                      return (
-                        <Card 
-                          key={session.id} 
-                          className={`p-3 sm:p-4 transition-all border-2 ${
-                            isDisabled 
-                              ? 'opacity-60 cursor-not-allowed' 
-                              : 'cursor-pointer hover:shadow-lg'
-                          } ${
-                            isAlreadyBooked
-                              ? 'border-yellow-500 bg-yellow-50'
-                              : isFull
-                              ? 'border-red-500 bg-red-50'
-                              : selectedSession?.id === session.id
-                              ? 'border-blue-500 bg-blue-50'
-                              : 'border-gray-200'
-                          }`}
-                          onClick={() => !isDisabled && handleSessionSelect(session.id, formatTime(session.session_time))}
-                        >
-                          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4">
-                            <div className="flex-1 min-w-0">
-                              <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-1">
-                                <div className="flex items-center gap-2 flex-wrap">
-                                  {selectedSession?.id === session.id && !isDisabled && (
-                                    <CheckCircle2 className="h-5 w-5 text-blue-600 flex-shrink-0" />
-                                  )}
-                                  <h3 className="text-base sm:text-lg text-[#182966] break-words">
-                                    {formatDate(session.session_date)}
-                                  </h3>
+                    (sessionSelectedDate 
+                      ? sessions.filter(s => s.session_date === sessionSelectedDate) 
+                      : []
+                    ).length === 0 ? (
+                      <p className="text-center text-gray-500 py-8">{t.testSessions.noSessionsForSelectedDate}</p>
+                    ) : (
+                      (sessionSelectedDate 
+                        ? sessions.filter(s => s.session_date === sessionSelectedDate) 
+                        : []
+                      ).map((session) => {
+                        // Use backend's is_booked field if available, otherwise fallback to client-side check
+                        const isAlreadyBooked = session.is_booked ?? [...futureBookings, ...pastBookings].some(
+                          b => b.session.id === session.id && b.payment_status !== 'cancelled'
+                        );
+                        
+                        // Check if session is full
+                        const isFull = session.available_slots === 0;
+                        
+                        // Determine if this session can be selected
+                        const isDisabled = isAlreadyBooked || isFull;
+                        
+                        return (
+                          <Card 
+                            key={session.id} 
+                            className={`p-3 sm:p-4 transition-all border-2 ${
+                              isDisabled 
+                                ? 'opacity-60 cursor-not-allowed' 
+                                : 'cursor-pointer hover:shadow-lg'
+                            } ${
+                              isAlreadyBooked
+                                ? 'border-yellow-500 bg-yellow-50'
+                                : isFull
+                                ? 'border-red-500 bg-red-50'
+                                : selectedSession?.id === session.id
+                                ? 'border-blue-500 bg-blue-50'
+                                : 'border-gray-200'
+                            }`}
+                            onClick={() => !isDisabled && handleSessionSelect(session.id, formatTime(session.session_time))}
+                          >
+                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4">
+                              <div className="flex-1 min-w-0">
+                                <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-1">
+                                  <div className="flex items-center gap-2 flex-wrap">
+                                    {selectedSession?.id === session.id && !isDisabled && (
+                                      <CheckCircle2 className="h-5 w-5 text-blue-600 flex-shrink-0" />
+                                    )}
+                                    <h3 className="text-base sm:text-lg text-[#182966] break-words">
+                                      {formatDate(session.session_date)}
+                                    </h3>
+                                  </div>
+                                  <div className="flex gap-2 flex-wrap">
+                                    {isAlreadyBooked && (
+                                      <span className="px-2 py-0.5 sm:py-1 text-xs rounded-full bg-yellow-600 text-white whitespace-nowrap">
+                                        {t.dashboard.alreadyBooked}
+                                      </span>
+                                    )}
+                                    {isFull && !isAlreadyBooked && (
+                                      <span className="px-2 py-0.5 sm:py-1 text-xs rounded-full bg-red-600 text-white whitespace-nowrap">
+                                        {t.dashboard.full}
+                                      </span>
+                                    )}
+                                  </div>
                                 </div>
-                                <div className="flex gap-2 flex-wrap">
-                                  {isAlreadyBooked && (
-                                    <span className="px-2 py-0.5 sm:py-1 text-xs rounded-full bg-yellow-600 text-white whitespace-nowrap">
-                                      {t.dashboard.alreadyBooked}
-                                    </span>
-                                  )}
-                                  {isFull && !isAlreadyBooked && (
-                                    <span className="px-2 py-0.5 sm:py-1 text-xs rounded-full bg-red-600 text-white whitespace-nowrap">
-                                      {t.dashboard.full}
-                                    </span>
-                                  )}
-                                </div>
+                                <p className="text-sm text-gray-600">
+                                  Time: {formatTime(session.session_time)}
+                                </p>
                               </div>
-                              <p className="text-sm text-gray-600">
-                                Time: {formatTime(session.session_time)}
-                              </p>
+                              <div className="flex-shrink-0 self-start sm:self-center">
+                                <span className={`text-xs sm:text-sm whitespace-nowrap ${
+                                  isFull ? 'text-red-600 font-semibold' : 
+                                  session.available_slots <= 3 ? 'text-orange-600 font-semibold' : 
+                                  'text-gray-600'
+                                }`}>
+                                  {session.available_slots} {t.dashboard.slotsLeft}
+                                </span>
+                              </div>
                             </div>
-                            <div className="flex-shrink-0 self-start sm:self-center">
-                              <span className={`text-xs sm:text-sm whitespace-nowrap ${
-                                isFull ? 'text-red-600 font-semibold' : 
-                                session.available_slots <= 3 ? 'text-orange-600 font-semibold' : 
-                                'text-gray-600'
-                              }`}>
-                                {session.available_slots} {t.dashboard.slotsLeft}
-                              </span>
-                            </div>
-                          </div>
-                        </Card>
-                      );
-                    })
+                          </Card>
+                        );
+                      })
+                    )
                   )}
                 </div>
 
