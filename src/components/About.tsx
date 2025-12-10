@@ -9,7 +9,7 @@ import { publicService } from "../services/public.service";
 import { landingService, TeamMember as ApiTeamMember } from "../services/landing.service";
 import { MOCK_ABOUT_CARDS, MOCK_TEAM_MEMBERS } from "../data/mock-data";
 import { useLanguage } from "../contexts/LanguageContext";
-import { fadeInUp, fadeInUpStagger, staggerContainer, staggerItem } from "../utils/kingkongAnimations";
+import { fadeInUp, staggerItem } from "../utils/animations";
 
 // Icon mapping for dynamic icons from backend
 const iconMap: Record<string, any> = {
@@ -134,10 +134,7 @@ export function About() {
     <section id="about" className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          {...fadeInUp}
           className="text-center mb-16"
         >
           <h2 className="mb-4 text-[#182966]">{t.about.aboutPretest}</h2>
@@ -154,10 +151,7 @@ export function About() {
             return (
               <motion.div
                 key={card.id}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
+                {...staggerItem(index, 0.05)}
                 whileHover={{ y: -5 }}
                 className="bg-gradient-to-br from-[#182966]/5 to-[#182966]/10 rounded-xl sm:rounded-2xl p-4 sm:p-6 text-center"
               >
@@ -174,10 +168,7 @@ export function About() {
         {/* Team */}
         {teamMembers.length > 0 && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            {...fadeInUp}
             className="mb-12"
           >
             <h3 className="text-center mb-12 text-[#182966]">{t.about.meetTeam}</h3>
@@ -185,10 +176,7 @@ export function About() {
               {teamMembers.map((member, index) => (
                 <motion.div
                   key={member.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
+                  {...staggerItem(index, 0.05)}
                   whileHover={{ y: -8 }}
                   className="group"
                 >
