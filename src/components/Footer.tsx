@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { landingService, SiteInfo } from "../services/landing.service";
 import { MOCK_FOOTER_INFO } from "../data/mock-data";
 import { useLanguage } from "../contexts/LanguageContext";
+import { fadeInUp, staggerItem } from "../utils/animations";
 
 // Icon mapping for social media
 const iconMap: Record<string, any> = {
@@ -122,11 +123,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 mb-12">
           {/* Brand Column */}
           <div className="lg:col-span-2">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
+            <motion.div {...fadeInUp}>
               <div className="text-[#182966] mb-4">Pretest</div>
               <p className="text-[#182966]/70 mb-6 max-w-xs">
                 {description}
@@ -162,12 +159,7 @@ export function Footer() {
           </div>
 
           {/* Links Columns */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-          >
+          <motion.div {...staggerItem(0, 0.05)}>
             <h4 className="mb-4 text-[#182966]">Product</h4>
             <ul className="space-y-2">
               {footerLinks.product.map((link) => (
@@ -180,12 +172,7 @@ export function Footer() {
             </ul>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-          >
+          <motion.div {...staggerItem(1, 0.05)}>
             <h4 className="mb-4 text-[#182966]">Company</h4>
             <ul className="space-y-2">
               {footerLinks.company.map((link) => (
@@ -198,12 +185,7 @@ export function Footer() {
             </ul>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
-          >
+          <motion.div {...staggerItem(2, 0.05)}>
             <h4 className="mb-4 text-[#182966]">Resources</h4>
             <ul className="space-y-2">
               {footerLinks.resources.map((link) => (
@@ -216,12 +198,7 @@ export function Footer() {
             </ul>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.4 }}
-          >
+          <motion.div {...staggerItem(3, 0.05)}>
             <h4 className="mb-4 text-[#182966]">Legal</h4>
             <ul className="space-y-2">
               {footerLinks.legal.map((link) => (
@@ -236,13 +213,7 @@ export function Footer() {
         </div>
 
         {/* Bottom Section */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.5 }}
-          className="pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-4"
-        >
+        <div className="pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-[#182966]/60">
             © {new Date().getFullYear()} Pretest. All rights reserved.
           </p>
@@ -269,7 +240,7 @@ export function Footer() {
               })}
             </div>
           )}
-        </motion.div>
+        </div>
       </div>
     </footer>
   );

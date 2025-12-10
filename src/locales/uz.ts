@@ -293,7 +293,7 @@ export const uz = {
     enterPromoCode: "Promo kodni kiriting",
     apply: "Qo'llash",
     remove: "O'chirish",
-    payWithClick: "Click orqali to'lash",
+    payWithClick: "To'lash",
     payWithCash: "Naqd to'lash",
     finalPrice: "Yakuniy narx:",
     continueToPayment: "To'lovga o'tish",

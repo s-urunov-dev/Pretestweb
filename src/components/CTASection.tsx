@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { useLanguage } from "../contexts/LanguageContext";
+import { fadeInLeft, fadeInRight, staggerItem } from "../utils/animations";
 
 export function CTASection() {
     const navigate = useNavigate();
@@ -34,10 +35,7 @@ export function CTASection() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
                     {/* Left Side - Content */}
                     <motion.div
-                        initial={{ opacity: 0, x: -30 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
+                        {...fadeInLeft}
                     >
                         <h2 className="mb-6 text-white">{t.cta.title}</h2>
                         <p className="text-white/80 mb-8 text-lg">{t.cta.joinThousands}</p>
@@ -74,10 +72,7 @@ export function CTASection() {
 
                     {/* Right Side - Benefits */}
                     <motion.div
-                        initial={{ opacity: 0, x: 30 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
+                        {...fadeInRight}
                         className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 shadow-2xl"
                     >
                         <h3 className="mb-6 text-[#182966]">{t.cta.whyChoose}</h3>
@@ -85,10 +80,7 @@ export function CTASection() {
                             {benefits.map((benefit, index) => (
                                 <motion.div
                                     key={index}
-                                    initial={{ opacity: 0, x: 20 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: index * 0.1 }}
+                                    {...staggerItem(index, 0.05)}
                                     className="flex items-start gap-3"
                                 >
                                     <div className="flex-shrink-0 w-6 h-6 bg-[#182966]/10 rounded-full flex items-center justify-center mt-0.5">
@@ -99,34 +91,18 @@ export function CTASection() {
                             ))}
                         </div>
 
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: 0.6 }}
-                            className="mt-8 pt-8 border-t border-gray-200"
-                        >
+                        <div className="mt-8 pt-8 border-t border-gray-200">
                             <p className="text-[#182966]/60 text-sm text-center">
                                 {t.cta.specialOffer}
                             </p>
-                        </motion.div>
+                        </div>
                     </motion.div>
                 </div>
             </div>
 
-            {/* Decorative Elements */}
-            <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 0.1, scale: 1 }}
-                viewport={{ once: true }}
-                className="absolute -bottom-20 -left-20 w-96 h-96 bg-white rounded-full blur-3xl"
-            />
-            <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 0.1, scale: 1 }}
-                viewport={{ once: true }}
-                className="absolute -top-20 -right-20 w-96 h-96 bg-white rounded-full blur-3xl"
-            />
+            {/* Decorative Elements - keep static, no animation */}
+            <div className="absolute -bottom-20 -left-20 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
+            <div className="absolute -top-20 -right-20 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
         </section>
     );
 }

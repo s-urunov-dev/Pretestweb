@@ -1,13 +1,7 @@
 import { motion } from "motion/react";
-import { useNavigate } from "react-router-dom";
-import { Button } from "./ui/button";
-import { ArrowRight, BookOpen, Headphones, PenTool, Mic, Users } from "lucide-react";
-import { useState, useEffect, useCallback } from "react";
-import { publicService, Product } from "../services/public.service";
-import { authService } from "../services/auth.service";
-import { MOCK_PRODUCTS } from "../data/mock-data";
+import { Check } from "lucide-react";
 import { useLanguage } from "../contexts/LanguageContext";
-import { fadeInUp, fadeInUpStagger, hoverLift } from "../utils/kingkongAnimations";
+import { fadeInUp, staggerItem } from "../utils/animations";
 
 // Icon and color mapping for each test type
 const FEATURE_CONFIG = {
@@ -108,10 +102,7 @@ export function Products() {
     <section id="products" className="py-24 bg-gradient-to-b from-white to-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          {...fadeInUp}
           className="text-center mb-16"
         >
           <h2 className="mb-4 text-[#182966]">{t.products.choosePackage}</h2>
@@ -128,10 +119,7 @@ export function Products() {
             return (
               <motion.div
                 key={product.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
+                {...staggerItem(index, 0.1)}
                 whileHover={{ y: -8, transition: { duration: 0.3 } }}
                 className={`relative rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-lg border-2 transition-all ${
                   popular
