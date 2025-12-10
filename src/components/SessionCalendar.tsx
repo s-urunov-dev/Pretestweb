@@ -128,13 +128,13 @@ export function SessionCalendar({ sessions, onDateSelect, selectedDate, compact 
       </div>
 
       {/* Calendar Grid */}
-      <div className="bg-white rounded-lg border border-[#182966]/10 p-2 sm:p-4">
+      <div className="bg-white rounded-lg border border-[#182966]/10 p-3 sm:p-4">
         {/* Day names */}
-        <div className="grid grid-cols-7 gap-0.5 sm:gap-1 mb-1 sm:mb-2">
+        <div className="grid grid-cols-7 gap-1 sm:gap-2 mb-2">
           {dayNames.map((day) => (
             <div
               key={day}
-              className="text-center text-xs text-[#182966]/60 py-1"
+              className="text-center text-xs text-[#182966]/60 py-1 font-medium"
             >
               {day}
             </div>
@@ -142,7 +142,7 @@ export function SessionCalendar({ sessions, onDateSelect, selectedDate, compact 
         </div>
 
         {/* Calendar days */}
-        <div className="grid grid-cols-7 gap-1 sm:gap-1">
+        <div className="grid grid-cols-7 gap-1.5 sm:gap-2">
           {calendarDays.map((date, index) => {
             const dateStr = formatDateString(date);
             const hasSessionOnDate = hasSession(date);
@@ -158,7 +158,7 @@ export function SessionCalendar({ sessions, onDateSelect, selectedDate, compact 
                 onClick={() => handleDateClick(date)}
                 disabled={!hasSessionOnDate || !isInCurrentMonth}
                 className={`
-                  aspect-square rounded-md text-xs sm:text-sm transition-colors flex items-center justify-center
+                  aspect-square rounded-md text-xs sm:text-sm transition-colors flex items-center justify-center font-medium
                   ${!isInCurrentMonth ? 'text-gray-300 cursor-default' : ''}
                   ${isInCurrentMonth && !hasSessionOnDate ? 'text-gray-400 cursor-not-allowed' : ''}
                   ${hasSessionOnDate && isInCurrentMonth ? 'cursor-pointer' : ''}

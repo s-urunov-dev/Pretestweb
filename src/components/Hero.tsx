@@ -68,7 +68,7 @@ export function Hero() {
 
       <div className="max-w-7xl mx-auto px-4 md:px-6 relative z-10 w-full pb-12 md:pb-16">
         <div className="flex flex-col items-center justify-center text-center">
-          <div className="w-full max-w-4xl">
+          <div className="w-full max-w-4xl px-2 sm:px-0">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
