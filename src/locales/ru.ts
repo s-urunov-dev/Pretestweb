@@ -105,6 +105,22 @@ about: {
     feature3: "Быстрые результаты",
     feature4: "Точная оценка",
     fullTest: "Полный тест",
+    // Time filters
+    timeFilterLabel: "Время:",
+    today: "Сегодня",
+    thisWeek: "Эта неделя",
+    next2Weeks: "Следующие 2 недели",
+    thisMonth: "Этот месяц",
+    allTime: "Все",
+    // Calendar
+    selectDate: "Выберите дату",
+    allSessions: "Все сессии",
+    noSessionsOnDate: "В этот день нет сессий",
+    hasSessions: "Есть сессии",
+    selected: "Выбрано",
+    pleaseSelectDate: "Пожалуйста, выберите дату из календаря",
+    chooseDateWithSessions: "Выберите дату с доступными сессиями",
+    noSessionsForSelectedDate: "На выбранную дату нет сессий",
   },
 
   // Testimonials
@@ -375,7 +391,7 @@ about: {
     speakingStep1: "Оплатите для запроса устной сессии",
     speakingStep2: "Мы запланируем с экзаменатором (Zoom/Оффлайн)",
     speakingStep3: "Получите видео-обратную связь после сессии",
-    uploadTask: "Загрузите св��ю работу",
+    uploadTask: "Загрузите свю работу",
     task1: "Task 1",
     task2: "Task 2",
     upload: "Загрузить",
