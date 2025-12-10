@@ -18,6 +18,7 @@ Complete IELTS mock test platform built with React, TypeScript, and Tailwind CSS
 - ✅ **Performance Optimized** - 85+ Lighthouse score
 - ✅ **SEO Ready** - Meta tags, sitemap, structured data
 - ✅ **PWA Support** - Service worker, offline support
+- ✅ **Google Analytics 4** - User tracking and analytics (Property ID: G-0WZFE3PSMS)
 
 ## 🛠️ Tech Stack
 
@@ -30,6 +31,7 @@ Complete IELTS mock test platform built with React, TypeScript, and Tailwind CSS
 - **Charts:** Recharts
 - **API:** Axios
 - **Build:** Vite
+- **Analytics:** Google Analytics 4
 
 ## 📦 Installation
 
@@ -257,6 +259,26 @@ npx lighthouse https://pre-test.uz --preset=mobile --view
 - `POST /payments` - Create payment
 - `GET /user/feedbacks` - Get feedbacks
 - `PATCH /user/profile` - Update profile
+
+## 📊 Google Analytics 4
+
+Platform uses Google Analytics 4 for tracking user behavior and analytics.
+
+**Property ID:** `G-0WZFE3PSMS`
+
+### What's Tracked?
+- Page views (automatic)
+- User sessions
+- Traffic sources
+- Device categories
+- Geographic location
+- Custom events (login, registration, bookings, payments)
+
+### Setup Documentation
+See [GOOGLE_ANALYTICS_SETUP.md](./GOOGLE_ANALYTICS_SETUP.md) for complete setup guide and custom event tracking.
+
+### Dashboard
+Access your analytics at: https://analytics.google.com/
 
 ## 🤝 Contributing
 
