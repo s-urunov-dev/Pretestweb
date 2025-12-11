@@ -67,7 +67,7 @@ export const uz = {
     full4: "Aniq band natijalar",
     selectButton: "Tanlash",
     bookSession: "Bu sessiyani band qiling",
-    seatsAvailable: "o'rin mavjud",
+    seatsAvailable: "ta dan",
     // New Pricing Table translations
     recommended: "Hot Sale",
     liteTitle: "PRETEST LITE",
@@ -413,7 +413,7 @@ export const uz = {
     none: "Yo'q",
     comingSoon: "Tez orada",
     at: "da",
-    of: "dan",
+    of: "ta o'rin mavjud",
   },
 };
 
