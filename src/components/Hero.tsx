@@ -19,16 +19,16 @@ export function Hero() {
     if (authService.isAuthenticated()) {
       navigate('/dashboard');
     } else {
-      navigate('/login');
+      navigate('/register');
     }
   };
 
   const handleGetFeedbackClick = () => {
-    // Navigate to login page
+    // Navigate to register page
     if (authService.isAuthenticated()) {
       navigate('/dashboard');
     } else {
-      navigate('/login');
+      navigate('/register');
     }
   };
 
