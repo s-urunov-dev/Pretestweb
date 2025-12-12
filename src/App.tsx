@@ -12,6 +12,8 @@ declare global {
   interface Window {
     gtag: (command: string, targetId: string, config?: Record<string, any>) => void;
     dataLayer: any[];
+    fbq: (command: string, eventName: string, params?: Record<string, any>) => void;
+    _fbq: any;
   }
 }
 
@@ -53,15 +55,21 @@ function NotFoundPage() {
   );
 }
 
-// Google Analytics Page Tracker Component
-function GoogleAnalyticsTracker() {
+// Google Analytics and Facebook Pixel Page Tracker Component
+function AnalyticsTracker() {
   const location = useLocation();
 
   useEffect(() => {
+    // Track Google Analytics page view
     if (typeof window !== 'undefined' && window.gtag) {
       window.gtag('config', 'G-0WZFE3PSMS', {
         page_path: location.pathname + location.search,
       });
+    }
+
+    // Track Facebook Pixel page view
+    if (typeof window !== 'undefined' && window.fbq) {
+      window.fbq('track', 'PageView');
     }
   }, [location]);
 
@@ -88,7 +96,7 @@ function AppContent() {
 
   return (
     <BrowserRouter>
-      <GoogleAnalyticsTracker />
+      <AnalyticsTracker />
       <ScrollToTop />
       <div className="min-h-screen bg-white">
         <Routes>
