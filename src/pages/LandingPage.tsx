@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Navigation } from "../components/Navigation";
 import { Hero } from "../components/Hero";
+import { FeaturesGrid } from "../components/FeaturesGrid";
 import { PricingTable } from "../components/PricingTable";
 import { TestSessions } from "../components/TestSessions";
 import { Feedback } from "../components/Feedback";
@@ -46,6 +47,7 @@ export function LandingPage() {
       />
       <Navigation />
       <Hero />
+      <FeaturesGrid />
       <PricingTable />
       <TestSessions onBookTest={handleBookTest} />
       <Feedback />

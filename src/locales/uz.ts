@@ -16,13 +16,26 @@ export const uz = {
 
   // Hero Section
   hero: {
-    title: "Ularga bu yilgi * sovg'ang IELTS g'alabang bo'lsin",
-    subtitle: "",
-    tagline: "Pretest va Britaniyalik ekspertlar bu ota-onang kutgan natija kafolati",
-    cta: "Joyingizni band qiling",
+    title: "Toshkentda Real IELTS Mock Test — Britaniyalik Ekspertlar Bilan",
+    subtitle: "Haqiqiy imtihon atmosferasi, yangi savollar va 24 soatda ekspert javoblari.",
+    tagline: "",
+    cta: "Joyni Band Qilish",
     learnMore: "Expert xulosasini oling",
     realExamConditions: "Haqiqiy imtihon sharoitlari",
     expertExaminers: "Ekspert tekshiruvchilar",
+    trustBadge: "⭐️ 10+ Yillik tajribaga ega Sobiq IELTS Ekzaminatorlari",
+  },
+
+  // Features Grid Section (SEO)
+  features: {
+    title: "Nima uchun aynan Pre-test.uz?",
+    subtitle: "Professional IELTS tayyorgarligingiz uchun barcha kerakli narsalar bir joyda",
+    card1Title: "Speaking - Yuzma-yuz Imtihon",
+    card1Desc: "Britaniyalik yoki mahalliy ekspert bilan jonli suhbat va aniq feedback.",
+    card2Title: "Writing - To'liq Tekshiruv",
+    card2Desc: "Grammatika va lug'at boyligi bo'yicha batafsil tahlil va ball.",
+    card3Title: "Listening & Reading - Yangi To'plam",
+    card3Desc: "Hech qayerda tushmagan, yangi va original savollar bazasi.",
   },
 
   // About Section
@@ -49,8 +62,8 @@ export const uz = {
   products: {
     title: "Test paketingizni tanlang",
     subtitle: "Tayyorgarlik ehtiyojlaringizga mos keladigan paketni tanlang. Barcha testlar rasmiy IELTS formati va vaqt rejasiga amal qiladi",
-    choosePackage: "O'zingizga mos paketni tanlang.",
-    selectPackageDesc: "",
+    choosePackage: "O'zinga Mos Paketni Tanla",
+    selectPackageDesc: "Har bir paket sizga mukammal IELTS tayyorgarligini taqdim etadi",
     mostPopular: "Eng mashhur",
     dailyPractice: "Daily Practice Test",
     fullSimulation: "Pretest Pro",
@@ -78,11 +91,11 @@ export const uz = {
     currency: "so'm",
     litePrice: "199 990",
     premiumPrice: "299 990",
-    liteFeature1: "<strong>Reading & Listening:</strong> Yangi Savollar Bazasi",
-    liteFeature2: "<strong>Writing:</strong> AI tekshiruvi",
-    liteFeature3: "Speaking: Mavjud emas",
-    liteFeature4: "<strong>Natijalar:</strong> Shu zahoti",
-    liteFeature5: "Real imtihon atmosferasi",
+    liteFeature1: "<strong>Reading va Listening:</strong> Yangi to'plam",
+    liteFeature2: "<strong>Speaking va Feedback:</strong> Britaniyalik ekspert",
+    liteFeature3: "<strong>Writing:</strong> To'liq tekshiruv",
+    liteFeature4: "<strong>Natijalar:</strong> 24 soat ichida",
+    liteFeature5: "<em>\"Siz uxlayotganingizda, London ishlaydi.\"</em>",
     premiumFeature1: "<strong>Reading & Listening:</strong> Yangi Savollar Bazasi",
     premiumFeature2: "<strong>Writing:</strong> Britaniyalik ekspert tekshiruvi",
     premiumFeature3: "<strong>Speaking:</strong> Britaniyalik Ekspert <em>(Jonli suhbat va feedback)</em>",
@@ -90,6 +103,22 @@ export const uz = {
     premiumFeature5: "Real imtihon atmosferasi",
     liteButton: "TANLASH",
     premiumButton: "TESTGA YOZILISH",
+    // New British vs Local Expert Cards
+    britishLabel: "PRETEST PRO",
+    britishPrice: "299 990",
+    britishFeature1: "Reading va Listening (Yangi to'plam)",
+    britishFeature2: "Speaking va Feedback: Britaniyalik ekspert",
+    britishFeature3: "Writing: To'liq tekshiruv",
+    britishFeature4: "Natijalar: 24 soat ichida",
+    britishQuote: "Siz uxlayotganingizda, London ishlaydi.",
+    britishButton: "HOZIROQ BOSHLASH",
+    localLabel: "PRETEST LITE",
+    localPrice: "199 990",
+    localFeature1: "Reading va Listening (Yangi to'plam)",
+    localFeature2: "Speaking va Feedback: Mahalliy ekspert",
+    localFeature3: "Writing: To'liq tekshiruv",
+    localFeature4: "Natijalar: 48 soat ichida",
+    localButton: "HOZIROQ BOSHLASH",
   },
 
   // Test Sessions
@@ -179,6 +208,9 @@ export const uz = {
     successStories: "Muvaffaqiyat hikoylari",
     videoFeedback: "Video Feedback",
     pricing: "Narxlar",
+    address: "Manzil: Chilonzor tumani, Bunyodkor shoh koʻchasi, 52A, Toshkent.",
+    copyright: "© 2025 Pre-test.uz - IELTS Mock Tests in Tashkent.",
+    locationNote: "Imtihonlar har hafta Toshkent markazida bo'lib o'tadi.",
   },
 
   // Feedback Component (Landing)

@@ -78,7 +78,7 @@ export function Hero() {
                     initial={{ opacity: 0, y: 40 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, delay: 0.5, ease: [0.25, 0.1, 0.25, 1.0] }}
-                    className="mb-4 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl"
+                    className="mb-12 md:mb-16 lg:mb-20 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl"
                     style={{
                         fontFamily: "'Oswald', sans-serif",
                         fontWeight: "900",
@@ -96,41 +96,41 @@ export function Hero() {
                 >
                     {language === 'uz' ? (
                       <>
-                        Ularga bu yilgi <span style={{ fontSize: '1.3em', fontWeight: '900', display: 'inline-block', transform: 'translateY(-0.1em)' }}>*</span> sovg'ang IELTS g'alabang bo'lsin
+                        Ota-onang faxrlanadigan <br />natijaga erish
                       </>
                     ) : (
                       t.hero.title
                     )}
                 </motion.h1>
               
-              {/* Tagline */}
-              <motion.p
+              {/* Subtitle (H2 for SEO) */}
+              <motion.h2
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.7, ease: [0.25, 0.1, 0.25, 1.0] }}
-                className="mb-12 text-base sm:text-lg md:text-xl lg:text-2xl"
+                transition={{ duration: 0.8, delay: 0.6, ease: [0.25, 0.1, 0.25, 1.0] }}
+                className="mb-14 md:mb-16 lg:mb-20 text-lg sm:text-xl md:text-2xl"
                 style={{
                   fontFamily: "'Montserrat', sans-serif",
                   fontWeight: "600",
                   color: '#ffffff',
-                  letterSpacing: '0.02em',
+                  letterSpacing: '0.01em',
                   lineHeight: '1.4',
                   textShadow: `
                     0 2px 8px rgba(0, 0, 0, 0.4),
                     0 4px 16px rgba(0, 0, 0, 0.3)
                   `,
-                  maxWidth: '800px',
-                  margin: '0 auto 3rem',
+                  maxWidth: '900px',
+                  margin: '0 auto',
                 }}
               >
-                {t.hero.tagline}
-              </motion.p>
+                {t.hero.subtitle}
+              </motion.h2>
               
               <motion.div 
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 1.1, ease: [0.25, 0.1, 0.25, 1.0] }}
-                className="flex flex-col sm:flex-row gap-4 justify-center items-start"
+                transition={{ duration: 0.8, delay: 0.8, ease: [0.25, 0.1, 0.25, 1.0] }}
+                className="flex flex-col sm:flex-row gap-8 md:gap-12 justify-center items-center mb-16 md:mb-20 lg:mb-24"
               >
                 {/* Blue button with checkmark below */}
                 <div className="flex flex-col items-center gap-3">
@@ -158,6 +158,29 @@ export function Hero() {
                     <span>{t.hero.expertExaminers}</span>
                   </div>
                 </div>
+              </motion.div>
+              
+              {/* Trust Badge */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 1.3, ease: [0.25, 0.1, 0.25, 1.0] }}
+                className="text-center mt-12 md:mt-16"
+              >
+                <p 
+                  className="text-sm sm:text-base"
+                  style={{
+                    fontFamily: "'Montserrat', sans-serif",
+                    fontWeight: "600",
+                    color: '#ffffff',
+                    textShadow: `
+                      0 2px 6px rgba(0, 0, 0, 0.4),
+                      0 4px 12px rgba(0, 0, 0, 0.3)
+                    `,
+                  }}
+                >
+                  {t.hero.trustBadge}
+                </p>
               </motion.div>
             </motion.div>
           </div>

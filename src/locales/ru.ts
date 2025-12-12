@@ -18,13 +18,26 @@ export const ru: Translation = {
 
   // Hero Section
   hero: {
-    title: "Профессиональная подготовка к IELTS",
-    subtitle: "Полные пробные тесты с видео-отзывами от бывших экзаменаторов IELTS",
-    tagline: "Pretest и британские эксперты - результат, которого ждут ваши родители",
-    cta: "Начать",
-    learnMore: "Подробнее",
+    title: "Реальный IELTS Mock Test в Ташкенте — с Британскими Экспертами",
+    subtitle: "Подлинная экзаменационная атмосфера, новые вопросы и экспертная обратная связь за 24 часа.",
+    tagline: "",
+    cta: "Забронировать Место",
+    learnMore: "Получить экспертное заключение",
     realExamConditions: "Реальные условия экзамена",
-    expertExaminers: "Эксперты-экзаменаторы",
+    expertExaminers: "Эксперт экзаменаторы",
+    trustBadge: "⭐️ Бывшие экзаменаторы IELTS с опытом более 10 лет",
+  },
+
+  // Features Grid Section (SEO)
+  features: {
+    title: "Почему именно Pre-test.uz?",
+    subtitle: "Всё необходимое для профессиональной подготовки к IELTS в одном месте",
+    card1Title: "Speaking - Очный Экзамен",
+    card1Desc: "Живая беседа с британским или местным экспертом и точная обратная связь.",
+    card2Title: "Writing - Полная Проверка",
+    card2Desc: "Подробный анализ и оценка грамматики и богатства лексики.",
+    card3Title: "Listening & Reading - Новая Коллекция",
+    card3Desc: "Уникальная и оригинальная база вопросов, нигде не встречавшаяся.",
   },
 
   // About Section
@@ -49,10 +62,8 @@ about: {
 
   // Products Section
   products: {
-    title: "Выберите свой тестовый пакет",
-    subtitle: "Выберите пакет, который соответствует вашим потребностям в подготовке. Все тесты следуют официальному формату и времени IELTS.",
-    choosePackage: "Выберите свой тестовый пакет",
-    selectPackageDesc: "Выберите пакет, который соответствует вашим потребностям в подготовке. Все тесты следуют официальному формату и времени IELTS.",
+    choosePackage: "Выберите Свой Идеальный Пакет",
+    selectPackageDesc: "Каждый пакет дает вам отличную подготовку к IELTS",
     mostPopular: "Самый популярный",
     dailyPractice: "Ежедневный практический тест",
     fullSimulation: "Pretest Pro",
@@ -80,11 +91,11 @@ about: {
     currency: "сум",
     litePrice: "199 990",
     premiumPrice: "299 990",
-    liteFeature1: "<strong>Reading & Listening:</strong> Новая база вопросов",
-    liteFeature2: "<strong>Writing:</strong> Проверка с помощью AI",
-    liteFeature3: "Speaking: Недоступно",
-    liteFeature4: "<strong>Результаты:</strong> Моментально",
-    liteFeature5: "Атмосфера реального экзамена",
+    liteFeature1: "<strong>Reading и Listening:</strong> Новый сборник",
+    liteFeature2: "<strong>Speaking и Feedback:</strong> Британский эксперт",
+    liteFeature3: "<strong>Writing:</strong> Полная проверка",
+    liteFeature4: "<strong>Результаты:</strong> В течение 24 часов",
+    liteFeature5: "<em>\"Пока вы спите, Лондон работает.\"</em>",
     premiumFeature1: "<strong>Reading & Listening:</strong> Новая база вопросов",
     premiumFeature2: "<strong>Writing:</strong> Проверка британским экспертом",
     premiumFeature3: "<strong>Speaking:</strong> Британский эксперт <em>(Живое интервью и обратная связь)</em>",
@@ -92,6 +103,22 @@ about: {
     premiumFeature5: "Атмосфера реального экзамена",
     liteButton: "ВЫБРАТЬ",
     premiumButton: "ЗАПИСАТЬСЯ НА ТЕСТ",
+    // New British vs Local Expert Cards
+    britishLabel: "PRETEST PRO",
+    britishPrice: "299 990",
+    britishFeature1: "Reading и Listening (Новый сборник)",
+    britishFeature2: "Speaking и Feedback: Британский эксперт",
+    britishFeature3: "Writing: Полная проверка",
+    britishFeature4: "Результаты: В течение 24 часов",
+    britishQuote: "Пока вы спите, Лондон работает.",
+    britishButton: "НАЧАТЬ СЕЙЧАС",
+    localLabel: "PRETEST LITE",
+    localPrice: "199 990",
+    localFeature1: "Reading и Listening (Новый сборник)",
+    localFeature2: "Speaking и Feedback: Местный эксперт",
+    localFeature3: "Writing: Полная проверка",
+    localFeature4: "Результаты: В течение 48 часов",
+    localButton: "НАЧАТЬ СЕЙЧАС",
   },
 
   // Test Sessions
@@ -150,7 +177,7 @@ about: {
     studentSatisfaction: "Удовлетворенность студентов",
     whyChoose: "Почему выбирают Pretest?",
     reason1: "Аутентичные оффлайн пробные тесты IELTS",
-    reason2: "Персонализированная видео-обратная связь от бывших экзаменаторов",
+    reason2: "Персонализрованная видео-обратная связь от бывших экзаменаторов",
     reason3: "Реалистичные условия экзамена с наблюдателями",
     reason4: "Подробные отчеты о производительности и аналитика",
     reason5: "Гибкое планирование для вашего удобства",
@@ -167,7 +194,7 @@ about: {
     resources: "Ресурсы",
     legal: "Правовая информация",
     privacy: "Политика конфиденциальности",
-    terms: "Условия использования",
+    terms: "Условия ипользования",
     cookiePolicy: "Политика Cookie",
     refundPolicy: "Политика возврата",
     contact: "Контакты",
@@ -181,6 +208,9 @@ about: {
     successStories: "Истории успеха",
     videoFeedback: "Видео-обратная связь",
     pricing: "Цены",
+    address: "Адрес: район Чиланзар, улица Буниёдкор шох, 52А, Ташкент.",
+    copyright: "© 2025 Pre-test.uz - IELTS Mock Tests в Ташкенте.",
+    locationNote: "Тесты проводятся еженедельно в центре Ташкента.",
   },
 
   // Feedback Component (Landing)
@@ -309,7 +339,7 @@ about: {
     redirectingToClick: "Перенаправление на оплату Click...",
     bookingSaved: "Ваше бронирование сохранено. Пожалуйста, завершите оплату наличными до истечения срока.",
     bookingFailed: "Не удалось создать бронирование. Пожалуйста, попробуйте снова.",
-    alreadyBookedError: "Вы уже забронировали эту сессию. По��алуйста, выберите другую сессию.",
+    alreadyBookedError: "Вы уже забронировали эту сессию. Пожалуйста, выберите другую сессию.",
     sessionFullError: "Эта сессия заполнена. Пожалуйста, выберите другую сессию.",
     // Promo code messages
     validatingPromo: "Проверка промо-кода...",
@@ -324,7 +354,7 @@ about: {
     writing: "Writing",
     speaking: "Speaking",
     noTests: "Тестов пока нет",
-    noResults: "Результатов пока нет",
+    noResults: "езультатов пока нет",
   },
 
   // Profile
@@ -354,7 +384,7 @@ about: {
         passwordMismatch: "Пароли не совпадают",
         passwordTooShort: "Пароль должен содержать не менее 8 символов",
         currentPasswordRequired: "Пожалуйста, введите текущий пароль",
-        fullName: "Полное ��мя",
+        fullName: "Полное мя",
         phoneNumber: "Номер телефона",
         passportSerial: "Серия паспорта",
         passportNumber: "Номер паспорта",
@@ -371,7 +401,7 @@ about: {
   // Feedback
   feedback: {
     title: "Видео-обратная связь",
-    subtitle: "Отправьте свою письменную работу или забронируйте устную сессию для экспертной обратной связи",
+    subtitle: "Отправьте свою письменную работу или забронируйте устную сессию для экспертной обратной связ",
     videoFeedback: "Видео-обратная связь",
     submitWriting: "Отправьте свою письменную работу или забронируйте устную сессию для экспертной обратной связи",
     requestFeedback: "Запросить обратную связь",
@@ -384,9 +414,9 @@ about: {
     watchVideo: "Смотреть видео",
     howItWorks: "Как работает видео-обратная связь",
     writingFeedback: "Письменная обратная связь",
-    writingStep1: "Напишите напрямую или загрузите файл",
+    writingStep1: "Напшите напрямую или загрузите файл",
     writingStep2: "Завершите оплату через Click",
-    writingStep3: "Получите видео-обратную связь в течение 24 часов",
+    writingStep3: "Получите видео-обратную связь в те��ение 24 часов",
     speakingFeedback: "Устная обратная связь",
     speakingStep1: "Оплатите для запроса устной сессии",
     speakingStep2: "Мы запланируем с экзаменатором (Zoom/Оффлайн)",

@@ -18,13 +18,26 @@ export const en: Translation = {
 
   // Hero Section
   hero: {
-    title: "Professional IELTS Test Preparation",
-    subtitle: "Complete mock tests with video feedback from former IELTS examiners",
-    tagline: "Pretest and British experts - the results your parents have been waiting for",
-    cta: "Get Started",
-    learnMore: "Learn More",
-    realExamConditions: "Real Exam Conditions",
-    expertExaminers: "Expert Examiners",
+    title: "Real IELTS Mock Test in Tashkent — With British Examiners",
+    subtitle: "Authentic exam atmosphere, fresh questions, and expert feedback within 24 hours.",
+    tagline: "",
+    cta: "Book Your Spot",
+    learnMore: "Get Expert Assessment",
+    realExamConditions: "Real exam conditions",
+    expertExaminers: "Expert examiners",
+    trustBadge: "⭐️ Former IELTS Examiners with 10+ Years of Experience",
+  },
+
+  // Features Grid Section (SEO)
+  features: {
+    title: "Why Pre-test.uz?",
+    subtitle: "Everything you need for professional IELTS preparation in one place",
+    card1Title: "Speaking - Face-to-Face Exam",
+    card1Desc: "Live conversation with British or local expert and precise feedback.",
+    card2Title: "Writing - Complete Assessment",
+    card2Desc: "Detailed analysis and score on grammar and vocabulary richness.",
+    card3Title: "Listening & Reading - Fresh Content",
+    card3Desc: "Unique and original question database, never seen elsewhere.",
   },
 
   // About Section
@@ -49,10 +62,8 @@ about: {
 
   // Products Section
   products: {
-    title: "Choose Your Test Package",
-    subtitle: "Select the package that fits your preparation needs. All tests follow official IELTS format and timing.",
-    choosePackage: "Choose Your Test Package",
-    selectPackageDesc: "Select the package that fits your preparation needs. All tests follow official IELTS format and timing.",
+    choosePackage: "Choose Your Perfect Package",
+    selectPackageDesc: "Each package gives you excellent IELTS preparation",
     mostPopular: "Most Popular",
     dailyPractice: "Daily Practice Test",
     fullSimulation: "Pretest Pro",
@@ -80,11 +91,11 @@ about: {
     currency: "UZS",
     litePrice: "199,990",
     premiumPrice: "299,990",
-    liteFeature1: "<strong>Reading & Listening:</strong> New Question Bank",
-    liteFeature2: "<strong>Writing:</strong> AI-powered checking",
-    liteFeature3: "Speaking: Not available",
-    liteFeature4: "<strong>Results:</strong> Instant",
-    liteFeature5: "Real exam atmosphere",
+    liteFeature1: "<strong>Reading & Listening:</strong> New Collection",
+    liteFeature2: "<strong>Speaking & Feedback:</strong> British Expert",
+    liteFeature3: "<strong>Writing:</strong> Full Review",
+    liteFeature4: "<strong>Results:</strong> Within 24 hours",
+    liteFeature5: "<em>\"While you sleep, London works.\"</em>",
     premiumFeature1: "<strong>Reading & Listening:</strong> New Question Bank",
     premiumFeature2: "<strong>Writing:</strong> British expert evaluation",
     premiumFeature3: "<strong>Speaking:</strong> British Expert <em>(Live interview and feedback)</em>",
@@ -92,6 +103,22 @@ about: {
     premiumFeature5: "Real exam atmosphere",
     liteButton: "SELECT",
     premiumButton: "BOOK TEST",
+    // New British vs Local Expert Cards
+    britishLabel: "PRETEST PRO",
+    britishPrice: "299,990",
+    britishFeature1: "Reading & Listening (New Collection)",
+    britishFeature2: "Speaking & Feedback: British Expert",
+    britishFeature3: "Writing: Full Review",
+    britishFeature4: "Results: Within 24 hours",
+    britishQuote: "While you sleep, London works.",
+    britishButton: "START NOW",
+    localLabel: "PRETEST LITE",
+    localPrice: "199,990",
+    localFeature1: "Reading & Listening (New Collection)",
+    localFeature2: "Speaking & Feedback: Local Expert",
+    localFeature3: "Writing: Full Review",
+    localFeature4: "Results: Within 48 hours",
+    localButton: "START NOW",
   },
 
   // Test Sessions
@@ -181,6 +208,9 @@ about: {
     successStories: "Success Stories",
     videoFeedback: "Video Feedback",
     pricing: "Pricing",
+    address: "Address: Chilonzor district, Bunyodkor shoh street, 52A, Tashkent.",
+    copyright: "© 2025 Pre-test.uz - IELTS Mock Tests in Tashkent.",
+    locationNote: "Tests are held weekly in Tashkent city center.",
   },
 
   // Feedback Component (Landing)

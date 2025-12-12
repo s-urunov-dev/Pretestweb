@@ -24,46 +24,10 @@ interface SocialMedia {
   order: number;
 }
 
-interface FooterInfo {
-  contact: {
-    email: string;
-    phone: string;
-    address: string;
-  };
-  socialMedia: SocialMedia[];
-}
-
-const footerLinks = {
-  product: [
-    { name: "Daily Practice Test", href: "#" },
-    { name: "Pretest Pro", href: "#" },
-    { name: "Video Feedback", href: "#" },
-    { name: "Pricing", href: "#" },
-  ],
-  company: [
-    { name: "About Us", href: "#" },
-    { name: "Our Team", href: "#" },
-    { name: "Careers", href: "#" },
-    { name: "Contact", href: "#" },
-  ],
-  resources: [
-    { name: "IELTS Guide", href: "#" },
-    { name: "Blog", href: "#" },
-    { name: "FAQs", href: "#" },
-    { name: "Success Stories", href: "#" },
-  ],
-  legal: [
-    { name: "Privacy Policy", href: "#" },
-    { name: "Terms of Service", href: "#" },
-    { name: "Cookie Policy", href: "#" },
-    { name: "Refund Policy", href: "#" },
-  ],
-};
-
 export function Footer() {
   const [siteInfo, setSiteInfo] = useState<SiteInfo | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { language } = useLanguage();
+  const { t, language } = useLanguage();
 
   useEffect(() => {
     loadFooterInfo();
@@ -101,10 +65,10 @@ export function Footer() {
 
   // Use backend data if available, otherwise use defaults
   const contactEmail = siteInfo?.email || "info@pretest.com";
-  const contactPhone = siteInfo?.phone || "+998 (77) 101-69-00";
-  const contactAddress = siteInfo?.address || "London, United Kingdom";
+  const contactPhone = siteInfo?.phone_number || "+998 (77) 101-69-00";
+  const contactAddress = siteInfo?.address || t.footer.address;
   const locationUrl = siteInfo?.location || "#";
-  const description = siteInfo?.description || "Your trusted partner for authentic IELTS mock tests and personalized feedback from expert examiners.";
+  const description = siteInfo?.description || t.footer.description;
   
   // Build social media links from site info
   const socialLinks: SocialMedia[] = [];
@@ -131,20 +95,20 @@ export function Footer() {
               
               {/* Contact Info */}
               <div className="space-y-3 text-sm">
-                <div className="flex items-center gap-2 text-[#182966]/70">
-                  <Mail className="h-4 w-4" />
+                <div className="flex items-start gap-2 text-[#182966]/70">
+                  <Mail className="h-4 w-4 mt-0.5" />
                   <a href={`mailto:${contactEmail}`} className="hover:text-[#182966]">
                     {contactEmail}
                   </a>
                 </div>
-                <div className="flex items-center gap-2 text-[#182966]/70">
-                  <Phone className="h-4 w-4" />
-                  <a href={`tel:${contactPhone.replace(/\s/g, '')}`} className="hover:text-[#182966]">
+                <div className="flex items-start gap-2 text-[#182966]/70">
+                  <Phone className="h-4 w-4 mt-0.5" />
+                  <a href={`tel:${contactPhone.replace(/\\s/g, '')}`} className="hover:text-[#182966]">
                     {contactPhone}
                   </a>
                 </div>
-                <div className="flex items-center gap-2 text-[#182966]/70">
-                  <MapPin className="h-4 w-4" />
+                <div className="flex items-start gap-2 text-[#182966]/70">
+                  <MapPin className="h-4 w-4 mt-0.5" />
                   <a 
                     href={locationUrl} 
                     target="_blank"
@@ -155,59 +119,104 @@ export function Footer() {
                   </a>
                 </div>
               </div>
+
+              {/* Location Note for SEO */}
+              <p className="mt-4 text-xs text-[#182966]/60 italic max-w-xs">
+                {t.footer.locationNote}
+              </p>
             </motion.div>
           </div>
 
-          {/* Links Columns */}
+          {/* Product Links */}
           <motion.div {...staggerItem(0, 0.05)}>
-            <h4 className="mb-4 text-[#182966]">Product</h4>
+            <h4 className="mb-4 text-[#182966]">{t.footer.product}</h4>
             <ul className="space-y-2">
-              {footerLinks.product.map((link) => (
-                <li key={link.name}>
-                  <a href={link.href} className="text-sm text-[#182966]/70 hover:text-[#182966] transition-colors">
-                    {link.name}
-                  </a>
-                </li>
-              ))}
+              <li>
+                <a href="#" className="text-sm text-[#182966]/70 hover:text-[#182966] transition-colors">
+                  {t.footer.pricing}
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-sm text-[#182966]/70 hover:text-[#182966] transition-colors">
+                  {t.footer.videoFeedback}
+                </a>
+              </li>
             </ul>
           </motion.div>
 
+          {/* Company Links */}
           <motion.div {...staggerItem(1, 0.05)}>
-            <h4 className="mb-4 text-[#182966]">Company</h4>
+            <h4 className="mb-4 text-[#182966]">{t.footer.company}</h4>
             <ul className="space-y-2">
-              {footerLinks.company.map((link) => (
-                <li key={link.name}>
-                  <a href={link.href} className="text-sm text-[#182966]/70 hover:text-[#182966] transition-colors">
-                    {link.name}
-                  </a>
-                </li>
-              ))}
+              <li>
+                <a href="#" className="text-sm text-[#182966]/70 hover:text-[#182966] transition-colors">
+                  {t.footer.aboutUs}
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-sm text-[#182966]/70 hover:text-[#182966] transition-colors">
+                  {t.footer.ourTeam}
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-sm text-[#182966]/70 hover:text-[#182966] transition-colors">
+                  {t.footer.contact}
+                </a>
+              </li>
             </ul>
           </motion.div>
 
+          {/* Resources Links */}
           <motion.div {...staggerItem(2, 0.05)}>
-            <h4 className="mb-4 text-[#182966]">Resources</h4>
+            <h4 className="mb-4 text-[#182966]">{t.footer.resources}</h4>
             <ul className="space-y-2">
-              {footerLinks.resources.map((link) => (
-                <li key={link.name}>
-                  <a href={link.href} className="text-sm text-[#182966]/70 hover:text-[#182966] transition-colors">
-                    {link.name}
-                  </a>
-                </li>
-              ))}
+              <li>
+                <a href="#" className="text-sm text-[#182966]/70 hover:text-[#182966] transition-colors">
+                  {t.footer.ieltsGuide}
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-sm text-[#182966]/70 hover:text-[#182966] transition-colors">
+                  {t.footer.blog}
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-sm text-[#182966]/70 hover:text-[#182966] transition-colors">
+                  {t.footer.faqs}
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-sm text-[#182966]/70 hover:text-[#182966] transition-colors">
+                  {t.footer.successStories}
+                </a>
+              </li>
             </ul>
           </motion.div>
 
+          {/* Legal Links */}
           <motion.div {...staggerItem(3, 0.05)}>
-            <h4 className="mb-4 text-[#182966]">Legal</h4>
+            <h4 className="mb-4 text-[#182966]">{t.footer.legal}</h4>
             <ul className="space-y-2">
-              {footerLinks.legal.map((link) => (
-                <li key={link.name}>
-                  <a href={link.href} className="text-sm text-[#182966]/70 hover:text-[#182966] transition-colors">
-                    {link.name}
-                  </a>
-                </li>
-              ))}
+              <li>
+                <a href="#" className="text-sm text-[#182966]/70 hover:text-[#182966] transition-colors">
+                  {t.footer.privacy}
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-sm text-[#182966]/70 hover:text-[#182966] transition-colors">
+                  {t.footer.terms}
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-sm text-[#182966]/70 hover:text-[#182966] transition-colors">
+                  {t.footer.cookiePolicy}
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-sm text-[#182966]/70 hover:text-[#182966] transition-colors">
+                  {t.footer.refundPolicy}
+                </a>
+              </li>
             </ul>
           </motion.div>
         </div>
@@ -215,7 +224,7 @@ export function Footer() {
         {/* Bottom Section */}
         <div className="pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-[#182966]/60">
-            © {new Date().getFullYear()} Pretest. All rights reserved.
+            {t.footer.copyright}
           </p>
 
           {/* Social Links */}

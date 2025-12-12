@@ -98,8 +98,9 @@ export function SEOHead({
       logo: 'https://pre-test.uz/logo.png',
       address: {
         '@type': 'PostalAddress',
-        streetAddress: 'Bunyodkor Avenue 52, Chilonzor',
-        addressLocality: 'Tashkent',
+        streetAddress: 'Bunyodkor shoh koʻchasi, 52A',
+        addressLocality: 'Chilonzor tumani',
+        addressRegion: 'Tashkent',
         addressCountry: 'UZ',
       },
       contactPoint: {
@@ -110,17 +111,17 @@ export function SEOHead({
       offers: [
         {
           '@type': 'Offer',
-          name: 'Daily Practice Test',
-          price: '29',
-          priceCurrency: 'USD',
-          description: 'Practice individual sections with comprehensive feedback',
+          name: 'Pretest Lite',
+          price: '199990',
+          priceCurrency: 'UZS',
+          description: 'IELTS Mock Test with local expert feedback in Tashkent',
         },
         {
           '@type': 'Offer',
           name: 'Pretest Pro',
-          price: '89',
-          priceCurrency: 'USD',
-          description: 'Complete IELTS mock test with all four sections and expert feedback',
+          price: '299990',
+          priceCurrency: 'UZS',
+          description: 'Complete IELTS mock test with British examiner feedback in Tashkent',
         },
       ],
     };
