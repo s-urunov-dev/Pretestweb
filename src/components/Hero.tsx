@@ -19,7 +19,7 @@ export function Hero() {
     if (authService.isAuthenticated()) {
       navigate('/dashboard');
     } else {
-      navigate('/login');
+      navigate('/register');
     }
   };
 
@@ -28,7 +28,7 @@ export function Hero() {
     if (authService.isAuthenticated()) {
       navigate('/dashboard');
     } else {
-      navigate('/login');
+      navigate('/register');
     }
   };
 
