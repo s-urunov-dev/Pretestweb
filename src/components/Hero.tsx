@@ -78,7 +78,7 @@ export function Hero() {
                     initial={{ opacity: 0, y: 40 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, delay: 0.5, ease: [0.25, 0.1, 0.25, 1.0] }}
-                    className="mb-12 md:mb-16 lg:mb-20 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl"
+                    className="mb-6 md:mb-7 lg:mb-8 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl"
                     style={{
                         fontFamily: "'Oswald', sans-serif",
                         fontWeight: "900",
@@ -91,7 +91,8 @@ export function Hero() {
                           0 16px 48px rgba(0, 0, 0, 0.2)
                         `,
                         maxWidth: '1000px',
-                        margin: '0 auto',
+                        marginLeft: 'auto',
+                        marginRight: 'auto',
                     }}
                 >
                     {language === 'uz' ? (
@@ -108,7 +109,7 @@ export function Hero() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.6, ease: [0.25, 0.1, 0.25, 1.0] }}
-                className="mb-14 md:mb-16 lg:mb-20 text-lg sm:text-xl md:text-2xl"
+                className="mb-10 md:mb-11 lg:mb-12 text-lg sm:text-xl md:text-2xl"
                 style={{
                   fontFamily: "'Montserrat', sans-serif",
                   fontWeight: "600",
@@ -120,7 +121,8 @@ export function Hero() {
                     0 4px 16px rgba(0, 0, 0, 0.3)
                   `,
                   maxWidth: '900px',
-                  margin: '0 auto',
+                  marginLeft: 'auto',
+                  marginRight: 'auto',
                 }}
               >
                 {t.hero.subtitle}
