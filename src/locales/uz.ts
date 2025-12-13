@@ -43,7 +43,7 @@ export const uz = {
         title: "Nima uchun Pretest?",
         subtitle: "Professional IELTS tayyorgarligingiz uchun barcha kerakli narsalar bir joyda",
         aboutPretest: "Pretest haqida",
-        mission: "Biz IELTS tayyorgarligini qulay, haqiqiy va samarali qilishga intilamiz. Sobiq IELTS ekspertlaridan iborat jamoamiz o'nlab yillik tajriba bilan sizga maqsad ballingizga erishishda yordam beradi - real offline mock testlar va individual feedback orqali.",
+        mission: "Biz IELTS tayyorgarligini qulay, haqiqiy va samarali qilishga intilamiz. Sobiq IELTS ekspertlaridan iborat jamoamiz o'nlab yillik tajriba bilan sizga ko'zlagan ballingizga erishishda yordam beradi - real offline mock testlar va individual feedback orqali.",
         meetTeam: "Bizning ekspert jamoamiz",
         experience: "Tajriba",
         specialization: "Mutaxassislik",
@@ -62,7 +62,7 @@ export const uz = {
     products: {
         title: "Test paketingizni tanlang",
         subtitle: "Tayyorgarlik ehtiyojlaringizga mos keladigan paketni tanlang. Barcha testlar rasmiy IELTS formati va vaqt rejasiga amal qiladi",
-        choosePackage: "O'zinga Mos Paketni Tanla",
+        choosePackage: "O'zingga Mos Paketni Tanla",
         selectPackageDesc: "Har bir paket sizga mukammal IELTS tayyorgarligini taqdim etadi",
         mostPopular: "Eng mashhur",
         dailyPractice: "Daily Practice Test",
@@ -152,9 +152,9 @@ export const uz = {
 
     // Testimonials
     testimonials: {
-        title: "Talabalar muvaffaqiyat hikoylari",
-        subtitle: "Haqiqiy talabalarning IELTS muvaffaqiyat yo'llarini tomosha qiling",
-        studentSuccess: "Talabalar muvaffaqiyat hikoylari",
+        title: "Natijalar gapiradi",
+        subtitle: "Mock test. Real natija. Haqiqiy tajriba",
+        studentSuccess: "Natijalar gapiradi",
         watchStories: "Haqiqiy talabalarning IELTS muvaffaqiyat yo'llarini tomosha qiling",
     },
 
@@ -166,7 +166,7 @@ export const uz = {
 
     // CTA Section
     cta: {
-        title: "Maqsad IELTS ballingizga erishishga tayyormisiz?",
+        title: "Maqsadli IELTS ballingizga erishishga tayyormisiz?",
         subtitle: "Bizning asl mock testlarimiz va ekspert feedbackimiz bilan IELTS ballarini oshirgan minglab muvaffaqiyatli talabalarga qo'shiling.",
         readyToAchieve: "Maqsad IELTS ballingizga erishishga tayyormisiz?",
         joinThousands: "Bizning asl mock testlarimiz va ekspert feedbackimiz bilan IELTS ballarini oshirgan minglab muvaffaqiyatli talabalarga qo'shiling.",
